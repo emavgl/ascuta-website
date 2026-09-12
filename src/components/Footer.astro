@@ -7,7 +7,6 @@ const { base } = Astro.props;
     <div>
       <div class="footer-brand"><img src={`${base}voiceflow-logo.svg`} alt="" class="brand-logo" width="32" height="32" /><span>VoiceFlow</span></div>
       <p class="footer-copy">Private, practical voice typing for Android.</p>
-      <p class="footer-copy">Provided by Emanuele Viglianisi.</p>
     </div>
     <div>
       <h2>Product</h2>
@@ -17,10 +16,6 @@ const { base } = Astro.props;
       <h2>Legal</h2>
       <ul><li><a href={`${base}privacy-policy`}>Privacy policy</a></li><li><a href={`${base}terms`}>Terms &amp; conditions</a></li><li><a href={`${base}impressum`}>Impressum</a></li></ul>
     </div>
-    <div>
-      <h2>Contact</h2>
-      <ul><li><a href="mailto:emavgl.app@gmail.com">emavgl.app@gmail.com</a></li><li>Altenbauerstraße 12<br />4060 Leonding, Austria</li></ul>
-    </div>
   </div>
-  <div class="container footer-bottom">© {new Date().getFullYear()} Emanuele Viglianisi · VoiceFlow</div>
+  <div class="container footer-bottom">© {new Date().getFullYear()} · VoiceFlow</div>
 </footer>
