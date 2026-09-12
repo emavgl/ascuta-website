@@ -12,7 +12,7 @@
 .nav-inner { min-height: 76px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
 .brand, .footer-brand { display: inline-flex; align-items: center; gap: 10px; color: var(--ink); font-size: 20px; font-weight: 700; letter-spacing: -.03em; text-decoration: none; }
 .brand:hover, .footer-brand:hover { color: var(--ink); text-decoration: none; }
-.brand-icon { width: 38px; height: 38px; display: inline-flex; align-items: center; justify-content: center; border-radius: 10px; background: var(--violet); color: #fff; font-size: 29px; line-height: 1; transform: rotate(-8deg); }
+.brand-logo { display: block; flex: 0 0 auto; border-radius: 10px; }
 .nav-links { display: flex; align-items: center; gap: 28px; font-size: 14px; font-weight: 600; }
 .nav-links a { color: #4b5563; text-decoration: none; }
 .nav-links a:hover { color: var(--violet); }
@@ -32,14 +32,6 @@ h1 { margin-bottom: 24px; color: var(--ink); font-size: clamp(42px, 7vw, 68px); 
 .button-secondary { color: var(--ink); background: #fff; border: 1px solid var(--line); }
 .button-secondary:hover { color: var(--ink); background: var(--soft); }
 .small-note { margin: 18px 0 0; color: var(--muted); font-size: 14px; }
-
-.wave-card { max-width: 600px; margin: 58px auto 0; padding: 28px; border: 1px solid #ddd6fe; border-radius: 18px; background: #fff; box-shadow: 0 18px 35px rgba(76, 29, 149, .08); text-align: left; }
-.wave-card-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; color: var(--muted); font-size: 13px; }
-.listening { color: var(--violet); font-weight: 700; }
-.wave { display: flex; align-items: center; justify-content: center; gap: 6px; height: 82px; padding: 0 20px; border-radius: 12px; background: #f5f3ff; }
-.wave span { width: 6px; border-radius: 8px; background: var(--violet); animation: pulse 1.15s ease-in-out infinite alternate; }
-.wave span:nth-child(1), .wave span:nth-child(13) { height: 18px; } .wave span:nth-child(2), .wave span:nth-child(12) { height: 30px; animation-delay: -.4s; } .wave span:nth-child(3), .wave span:nth-child(11) { height: 48px; animation-delay: -.8s; } .wave span:nth-child(4), .wave span:nth-child(10) { height: 65px; animation-delay: -.2s; } .wave span:nth-child(5), .wave span:nth-child(9) { height: 40px; animation-delay: -.6s; } .wave span:nth-child(6), .wave span:nth-child(8) { height: 56px; animation-delay: -.1s; } .wave span:nth-child(7) { height: 72px; animation-delay: -.5s; }
-@keyframes pulse { to { transform: scaleY(.55); opacity: .65; } }
 
 .section { padding: 84px 0; }
 .section-soft { background: var(--soft); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
@@ -86,7 +78,7 @@ h1 { margin-bottom: 24px; color: var(--ink); font-size: clamp(42px, 7vw, 68px); 
 .site-footer { padding: 48px 0 28px; border-top: 1px solid var(--line); background: var(--soft); }
 .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 48px; padding-bottom: 40px; }
 .footer-brand { font-size: 18px; }
-.footer-brand .brand-icon { width: 32px; height: 32px; font-size: 24px; }
+.footer-brand .brand-logo { border-radius: 8px; }
 .footer-copy { max-width: 260px; margin: 14px 0 0; color: var(--muted); font-size: 14px; }
 .site-footer h2 { margin-bottom: 13px; color: var(--ink); font-size: 14px; }
 .site-footer ul { list-style: none; margin: 0; padding: 0; }
@@ -108,12 +100,11 @@ h1 { margin-bottom: 24px; color: var(--ink); font-size: clamp(42px, 7vw, 68px); 
 }
 @media (max-width: 520px) {
   .container { padding-left: 18px; padding-right: 18px; }
-  .brand-icon { width: 32px; height: 32px; font-size: 25px; }
+.brand-logo { width: 32px; height: 32px; }
   .brand { font-size: 18px; }
   .nav-links { gap: 11px; }
   .hero-inner { padding-top: 58px; }
   .lede { font-size: 17px; }
-  .wave-card { margin-top: 40px; padding: 18px; }
   .feature-grid, .support-grid { grid-template-columns: 1fr; }
   .section { padding: 62px 0; }
   .page-header { padding: 58px 0 48px; }
