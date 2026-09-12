@@ -1,0 +1,17 @@
+---
+import Layout from '../layouts/Layout.astro';
+const base = import.meta.env.BASE_URL;
+---
+<Layout title="Support – VoiceFlow" description="VoiceFlow setup and troubleshooting guide.">
+  <section class="page-header"><div class="container"><p class="eyebrow">Support</p><h1>Get VoiceFlow working.</h1><p class="lede">A short guide to setup, permissions, models, and the most common problems.</p></div></section>
+  <section class="section"><div class="container narrow prose">
+    <div class="support-grid">
+      <article class="support-card"><h2>First-time setup</h2><ol><li>Complete the setup choices in VoiceFlow.</li><li>Grant microphone permission.</li><li>If using the bubble, enable VoiceFlow under Android Accessibility settings.</li><li>For offline dictation, download a model in the Models tab.</li><li>Use Test dictation from the Home screen.</li></ol></article>
+      <article class="support-card"><h2>The bubble does not insert text</h2><p>Confirm the VoiceFlow accessibility service is enabled and a normal text field is focused. Some apps restrict insertion or use custom editors. VoiceFlow copies the result to the clipboard when direct insertion is unavailable.</p></article>
+      <article class="support-card"><h2>No words or quiet recording</h2><p>Check microphone permission, make sure another app is not using the microphone, and retry from Test dictation. Restart VoiceFlow if Android still reports no input.</p></article>
+      <article class="support-card"><h2>Local versus cloud</h2><p>Local engines require a downloaded model and keep audio on-device. Cloud mode requires your own API key and sends recordings directly to the configured provider.</p></article>
+    </div>
+    <h2>Contact support</h2><p>Email <a href="mailto:emavgl.app@gmail.com">emavgl.app@gmail.com</a> for help. Include your Android version, phone model, selected engine, and a short description. Never include API keys, private recordings, or private dictated text.</p>
+    <p><a class="button button-primary" href={`${base}privacy-policy`}>Read the privacy policy</a></p>
+  </div></section>
+</Layout>

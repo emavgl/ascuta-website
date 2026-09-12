@@ -1,0 +1,17 @@
+---
+interface Props { base: string }
+const { base } = Astro.props;
+---
+<nav class="border-b border-gray-200 bg-white">
+  <div class="container nav-inner">
+    <a href={base} class="brand" aria-label="VoiceFlow home">
+      <span class="brand-icon" aria-hidden="true">⌁</span>
+      <span>VoiceFlow</span>
+    </a>
+    <div class="nav-links">
+      <a href={`${base}support`}>Support</a>
+      <a href={`${base}privacy-policy`}>Privacy</a>
+      <a href={`${base}terms`}>Terms</a>
+    </div>
+  </div>
+</nav>
