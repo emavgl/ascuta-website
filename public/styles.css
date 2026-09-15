@@ -93,7 +93,7 @@ h1 { margin-bottom: 24px; color: var(--ink); font-size: clamp(42px, 7vw, 68px); 
 @media (max-width: 800px) {
   .nav-inner { min-height: 64px; }
   .nav-links { gap: 14px; font-size: 13px; }
-  .nav-links a:nth-child(3) { display: none; }
+  .nav-links a:nth-child(4) { display: none; }
   .hero-inner { padding-top: 72px; padding-bottom: 78px; }
   .feature-grid, .support-grid { grid-template-columns: repeat(2, 1fr); }
   .split { grid-template-columns: 1fr; gap: 30px; }

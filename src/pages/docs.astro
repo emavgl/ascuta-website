@@ -1,0 +1,138 @@
+---
+import Layout from '../layouts/Layout.astro';
+const base = import.meta.env.BASE_URL;
+---
+<Layout title="Docs – VoiceFlow" description="How to dictate with VoiceFlow in Gboard, Microsoft SwiftKey, Samsung Keyboard and other Android keyboards.">
+  <section class="page-header"><div class="container"><p class="eyebrow">Docs</p><h1>How to dictate with VoiceFlow.</h1><p class="lede">VoiceFlow works alongside your keyboard. Pick the method that matches your keyboard and how you like to write.</p></div></section>
+
+  <section class="section"><div class="container narrow">
+    <nav class="doc-index" aria-label="On this page">
+      <h2>On this page</h2>
+      <ol>
+        <li><a href="#before">Before you start</a></li>
+        <li><a href="#gboard">Gboard</a></li>
+        <li><a href="#swiftkey">Microsoft SwiftKey</a></li>
+        <li><a href="#samsung">Samsung Keyboard</a></li>
+        <li><a href="#voiceflow-keyboard">VoiceFlow Keyboard</a></li>
+        <li><a href="#bubble">Floating bubble</a></li>
+        <li><a href="#popup">Voice-input popup</a></li>
+        <li><a href="#other">Other keyboards</a></li>
+        <li><a href="#troubleshooting">Troubleshooting</a></li>
+      </ol>
+    </nav>
+
+    <div class="prose">
+      <h2 id="before">Before you start</h2>
+      <ol>
+        <li>Complete the VoiceFlow setup wizard and allow microphone access.</li>
+        <li>Choose an engine: a downloaded on-device model, the system speech engine, or your own cloud provider.</li>
+        <li>If you want the floating bubble, enable <strong>VoiceFlow</strong> under Android <strong>Accessibility</strong> settings.</li>
+        <li>Test in a normal text field, such as a messaging or notes app, before using it in your main apps.</li>
+      </ol>
+      <p>VoiceFlow only works with a keyboard’s microphone when that keyboard asks Android for standard voice input. Most keyboards keep their own microphone button, so VoiceFlow also offers two keyboard-independent ways to dictate: the <a href="#bubble">floating bubble</a> and the <a href="#voiceflow-keyboard">VoiceFlow Keyboard</a>.</p>
+
+      <h2 id="gboard">Gboard</h2>
+      <article class="support-card">
+        <h3>Use the floating bubble, or switch to the VoiceFlow Keyboard</h3>
+        <p>Gboard’s microphone button opens Google voice typing and does not hand it to another recognizer. Choose one of these:</p>
+        <ol>
+          <li><strong>Floating bubble (keeps Gboard):</strong> leave Gboard selected, focus a text field, tap the VoiceFlow bubble above the app, speak, then tap stop. VoiceFlow inserts the text into the field.</li>
+          <li><strong>VoiceFlow Keyboard:</strong> enable it in Android keyboard settings, switch to it with the globe key, and use its microphone. It commits the transcript and normally returns to Gboard.</li>
+        </ol>
+        <p>You never have to replace Gboard permanently: VoiceFlow is an auxiliary voice keyboard that you switch to only when you want to dictate.</p>
+      </article>
+
+      <h2 id="swiftkey">Microsoft SwiftKey</h2>
+      <article class="support-card">
+        <h3>SwiftKey’s microphone can open VoiceFlow</h3>
+        <p>SwiftKey invokes Android’s standard speech-recognition interface, which VoiceFlow can serve:</p>
+        <ol>
+          <li>Focus a text field and tap the microphone button on the SwiftKey toolbar.</li>
+          <li>If Android asks which voice-input service to use, choose <strong>VoiceFlow</strong>. If a panel opens directly, it is the VoiceFlow <a href="#popup">voice-input popup</a>.</li>
+          <li>Speak, then stop. VoiceFlow returns one result to SwiftKey and the focused field.</li>
+        </ol>
+        <p>This is the most direct keyboard-microphone integration. If SwiftKey’s microphone is bound to another service, use the bubble or the VoiceFlow Keyboard instead.</p>
+      </article>
+
+      <h2 id="samsung">Samsung Keyboard</h2>
+      <article class="support-card">
+        <h3>Use the floating bubble, or switch to the VoiceFlow Keyboard</h3>
+        <p>Samsung Keyboard keeps its microphone connected to Samsung voice input. Use the same two paths as with Gboard:</p>
+        <ol>
+          <li>Keep Samsung Keyboard selected and tap the VoiceFlow floating bubble, or</li>
+          <li>Switch to the VoiceFlow Keyboard with the globe key and tap its microphone.</li>
+        </ol>
+        <p>The bubble is convenient when you want to keep Samsung Keyboard visible; the VoiceFlow Keyboard is useful when you want the text to appear in the field as you dictate.</p>
+      </article>
+
+      <h2 id="voiceflow-keyboard">VoiceFlow Keyboard</h2>
+      <article class="support-card">
+        <h3>Enable it once, switch to it when needed</h3>
+        <ol>
+          <li>Open VoiceFlow and tap <strong>Voice typing keyboard</strong>, or open Android keyboard settings manually.</li>
+          <li>Enable <strong>VoiceFlow voice typing</strong>.</li>
+          <li>Focus a text field in any app and open the keyboard switcher (globe or keyboard button), then select VoiceFlow.</li>
+          <li>Tap the microphone to start and tap again to stop.</li>
+          <li>VoiceFlow commits the final transcript into the focused field and normally switches back to your previous keyboard.</li>
+        </ol>
+        <p>This is an auxiliary keyboard, meant to be selected temporarily. With the system speech engine, partial words appear while you speak; other engines insert the finished result when recording stops. If the switcher does not show VoiceFlow, confirm it is enabled and restart the target app.</p>
+      </article>
+
+      <h2 id="bubble">Floating bubble</h2>
+      <article class="support-card">
+        <h3>Works independently of your keyboard</h3>
+        <ol>
+          <li>Enable the VoiceFlow Accessibility Service when Android asks.</li>
+          <li>Leave Gboard, SwiftKey, Samsung Keyboard, or any other keyboard selected.</li>
+          <li>Focus a normal text field and tap the floating VoiceFlow button. Press and hold it to dictate, and release to finish.</li>
+          <li>Speak, then tap stop. VoiceFlow inserts the result into the focused field.</li>
+        </ol>
+        <p>Some apps use secure or custom editors that block accessibility text insertion. In that case VoiceFlow copies the transcript to the clipboard so you can paste it manually.</p>
+      </article>
+
+      <h2 id="popup">Voice-input popup</h2>
+      <article class="support-card">
+        <h3>Use VoiceFlow when an app asks Android for voice input</h3>
+        <p>Some apps and websites open Android’s standard speech-recognition interface instead of using a keyboard-specific voice feature. When that happens, Android can show the VoiceFlow voice-input popup.</p>
+        <ol>
+          <li>Tap the app or website’s voice-search or microphone control.</li>
+          <li>Choose VoiceFlow if Android asks which voice-input service to use.</li>
+          <li>Record and stop in the VoiceFlow popup.</li>
+          <li>VoiceFlow returns one final result to the requesting app.</li>
+        </ol>
+        <p>This flow is controlled by the calling app. If it does not use Android’s standard request, use the bubble or the VoiceFlow Keyboard instead.</p>
+      </article>
+
+      <h2 id="other">Other keyboards</h2>
+      <article class="support-card">
+        <h3>Any keyboard: use the bubble or the VoiceFlow Keyboard</h3>
+        <p>HeliBoard, OpenBoard, Fleksy, Grammarly, Yandex Keyboard, Typewise and others all work the same way as Gboard and Samsung Keyboard:</p>
+        <ol>
+          <li>Keep your keyboard and dictate with the <a href="#bubble">floating bubble</a>, or</li>
+          <li>Switch to the <a href="#voiceflow-keyboard">VoiceFlow Keyboard</a> when you want the words to land in the field as you speak.</li>
+        </ol>
+        <p>If your keyboard exposes Android’s standard voice-input action (often a microphone key or a long-press option), it may also open the <a href="#popup">VoiceFlow popup</a> directly.</p>
+      </article>
+
+      <h2 id="troubleshooting">Troubleshooting</h2>
+      <div class="support-grid">
+        <article class="support-card"><h3>No microphone or no words</h3><p>Check Android microphone permission, close any other app using the microphone, and retry from VoiceFlow’s test screen.</p></article>
+        <article class="support-card"><h3>The bubble does nothing</h3><p>Confirm the Accessibility Service is enabled and that a standard text field is focused. Some secure or custom fields reject insertion.</p></article>
+        <article class="support-card"><h3>No local transcription</h3><p>Open the Models tab and verify a model for the selected engine is installed. Large Gemma models take longer to load.</p></article>
+        <article class="support-card"><h3>Cloud transcription fails</h3><p>Check the configured API key, provider endpoint, network connection, account limits, and the provider’s request format.</p></article>
+      </div>
+
+      <p class="support-note">For permissions, models and privacy details, see the <a href={`${base}support`}>support guide</a> and the <a href={`${base}privacy-policy`}>Privacy Policy</a>.</p>
+    </div>
+  </div></section>
+</Layout>
+
+<style>
+  .doc-index { max-width: 800px; margin: 0 auto 32px; padding: 24px 28px; border: 1px solid var(--line); border-radius: 14px; background: var(--soft); }
+  .doc-index h2 { margin: 0 0 12px; color: var(--ink); font-size: 16px; }
+  .doc-index ol { columns: 2; margin: 0; padding-left: 20px; }
+  .doc-index li { margin: 7px 0; }
+  .doc-index a { color: var(--primary-dark); text-decoration: none; }
+  .doc-index a:hover { text-decoration: underline; }
+  @media (max-width: 520px) { .doc-index ol { columns: 1; } }
+</style>
