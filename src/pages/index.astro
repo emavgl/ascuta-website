@@ -4,38 +4,38 @@ import Layout from '../layouts/Layout.astro';
 const base = import.meta.env.BASE_URL;
 
 const features = [
-  ['🎙️', 'Dictate across apps', 'Use the floating bubble, voice-input panel, or VoiceFlow keyboard wherever Android exposes a text field.'],
+  ['🎙️', 'Dictate across apps', 'Use the floating bubble, voice-input panel, or Ascuta keyboard wherever Android exposes a text field.'],
   ['◎', 'On-device first', 'Download a local model once and keep audio on your phone. No account is required.'],
   ['⌁', 'Live audio waves', 'See the microphone respond while you talk, then review the final text before continuing.'],
   ['✦', 'Optional cleanup', 'Polish punctuation and wording locally or with a cloud provider you choose.'],
-  ['↗', 'Fallback to clipboard', 'If an app blocks text insertion, VoiceFlow copies the result so you can paste it yourself.'],
+  ['↗', 'Fallback to clipboard', 'If an app blocks text insertion, Ascuta copies the result so you can paste it yourself.'],
   ['◌', 'Multilingual', 'Use supported Whisper and Parakeet models for dictation in multiple languages.'],
-  ['⌨', 'Keep your keyboard', 'VoiceFlow complements your existing keyboard instead of forcing you to replace it.'],
+  ['⌨', 'Keep your keyboard', 'Ascuta complements your existing keyboard instead of forcing you to replace it.'],
   ['▣', 'Built for Android', 'A focused voice-typing tool designed around Android permissions, text fields, and your existing keyboard.']
 ];
 
 const faqs = [
   ['Does local mode upload audio?', 'No. With a local engine, speech is processed on the device. Network access is used for model downloads and other operations you explicitly configure.'],
-  ['Why does the bubble need Accessibility permission?', 'Android uses Accessibility Service to let an app insert text into another app’s focused field. VoiceFlow uses it for that insertion flow after you interact with the bubble.'],
-  ['Can I use VoiceFlow without the bubble?', 'Yes. You can use the voice-input popup or select VoiceFlow as an on-screen voice typing keyboard.'],
-  ['What happens in cloud mode?', 'Your device sends audio directly to the provider configured by you, using your own API key. VoiceFlow does not operate a relay server.'],
-  ['What if an app does not accept inserted text?', 'VoiceFlow falls back to copying the transcript to the clipboard so it can be pasted manually.']
+  ['Why does the bubble need Accessibility permission?', 'Android uses Accessibility Service to let an app insert text into another app’s focused field. Ascuta uses it for that insertion flow after you interact with the bubble.'],
+  ['Can I use Ascuta without the bubble?', 'Yes. You can use the voice-input popup or select Ascuta as an on-screen voice typing keyboard.'],
+  ['What happens in cloud mode?', 'Your device sends audio directly to the provider configured by you, using your own API key. Ascuta does not operate a relay server.'],
+  ['What if an app does not accept inserted text?', 'Ascuta falls back to copying the transcript to the clipboard so it can be pasted manually.']
 ];
 ---
 
-<Layout title="VoiceFlow – Private voice typing for Android" description="VoiceFlow is private, practical voice typing for Android with local and optional cloud transcription.">
+<Layout title="Ascuta – Private voice typing for Android" description="Ascuta is private, practical voice typing for Android with local and optional cloud transcription.">
   <section class="hero">
     <div class="container hero-inner">
       <p class="eyebrow">Private voice typing for Android</p>
       <h1>Turn your voice into <span class="hero-accent">words that stay yours.</span></h1>
-      <p class="lede">VoiceFlow puts dictation into the text field you are already using. Tap the bubble, speak naturally, and keep moving.</p>
-      <div class="actions"><a class="button button-primary" href={`${base}#features`}>Explore VoiceFlow</a><a class="button button-secondary" href={`${base}support`}>Read the setup guide</a></div>
+      <p class="lede">Ascuta puts dictation into the text field you are already using. Tap the bubble, speak naturally, and keep moving.</p>
+      <div class="actions"><a class="button button-primary" href={`${base}#features`}>Explore Ascuta</a><a class="button button-secondary" href={`${base}support`}>Read the setup guide</a></div>
     </div>
   </section>
 
-  <section id="features" class="section"><div class="container"><div class="section-heading"><p class="eyebrow">Built around the useful part</p><h2>Say less to your phone. Tap less, too.</h2><p>VoiceFlow is a small, direct tool for getting speech into the app where you need it.</p></div><div class="feature-grid">{features.map(([icon, title, description]) => <article class="feature-card"><div class="feature-icon" aria-hidden="true">{icon}</div><h3>{title}</h3><p>{description}</p></article>)}</div></div></section>
+  <section id="features" class="section"><div class="container"><div class="section-heading"><p class="eyebrow">Built around the useful part</p><h2>Say less to your phone. Tap less, too.</h2><p>Ascuta is a small, direct tool for getting speech into the app where you need it.</p></div><div class="feature-grid">{features.map(([icon, title, description]) => <article class="feature-card"><div class="feature-icon" aria-hidden="true">{icon}</div><h3>{title}</h3><p>{description}</p></article>)}</div></div></section>
 
-  <section class="section section-soft"><div class="container split"><div><p class="eyebrow">Choose your processing path</p><h2>Your words can stay on your phone.</h2><p>VoiceFlow gives you control over the trade-off between local privacy, model size, speed, and cloud services.</p></div><div class="mode-list"><div class="mode"><span class="mode-icon">◎</span><div><h3>On-device transcription</h3><p>Whisper, Parakeet, Gemma, or the system engine can process speech locally. Downloaded models run without sending audio away.</p></div></div><div class="mode"><span class="mode-icon">↗</span><div><h3>Optional cloud transcription</h3><p>Use an OpenAI-compatible provider with your own key. Requests go directly from your phone to that provider.</p></div></div><div class="mode"><span class="mode-icon">✦</span><div><h3>Optional post-processing</h3><p>Clean up grammar, punctuation, or translate using an available on-device or cloud model.</p></div></div></div></div></section>
+  <section class="section section-soft"><div class="container split"><div><p class="eyebrow">Choose your processing path</p><h2>Your words can stay on your phone.</h2><p>Ascuta gives you control over the trade-off between local privacy, model size, speed, and cloud services.</p></div><div class="mode-list"><div class="mode"><span class="mode-icon">◎</span><div><h3>On-device transcription</h3><p>Whisper, Parakeet, Gemma, or the system engine can process speech locally. Downloaded models run without sending audio away.</p></div></div><div class="mode"><span class="mode-icon">↗</span><div><h3>Optional cloud transcription</h3><p>Use an OpenAI-compatible provider with your own key. Requests go directly from your phone to that provider.</p></div></div><div class="mode"><span class="mode-icon">✦</span><div><h3>Optional post-processing</h3><p>Clean up grammar, punctuation, or translate using an available on-device or cloud model.</p></div></div></div></div></section>
 
   <section class="section"><div class="container"><div class="section-heading"><p class="eyebrow">Questions, answered</p><h2>Start simple.</h2><p>The important details before you grant permissions or download a model.</p></div><div class="support-grid">{faqs.map(([question, answer]) => <details class="support-card"><summary><h2>{question}</h2><span>+</span></summary><p>{answer}</p></details>)}</div></div></section>
 

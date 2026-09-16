@@ -1,6 +1,6 @@
-# VoiceFlow Website
+# Ascuta Website
 
-Public website for VoiceFlow, maintained separately from the private Android application repository.
+Public website for Ascuta, maintained separately from the private Android application repository.
 
 This is an Astro static site intended for deployment to a public GitHub repository using GitHub Pages and GitHub Actions.
 
