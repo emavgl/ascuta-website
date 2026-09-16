@@ -11,6 +11,7 @@
   --dark: #1C1C1E;
 }
 
+.site-nav { border-bottom: 1px solid var(--line); background: #fff; }
 .container { width: 100%; max-width: 1152px; margin: 0 auto; padding-left: 24px; padding-right: 24px; }
 .narrow { max-width: 800px; }
 .nav-inner { min-height: 76px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
@@ -77,6 +78,8 @@ h1 { margin-bottom: 24px; color: var(--ink); font-size: clamp(42px, 7vw, 68px); 
 .support-card h2 { margin-bottom: 12px; color: var(--ink); font-size: 21px; }
 .support-card p, .support-card ol { margin-bottom: 0; color: var(--muted); font-size: 15px; line-height: 1.65; }
 .support-card ol { padding-left: 22px; }
+.support-card-wide { margin: 18px 0 28px; }
+.support-note { margin-top: 28px; color: var(--muted); font-size: 14px; }
 
 .site-footer { padding: 48px 0 28px; border-top: 1px solid var(--line); background: var(--soft); }
 .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 48px; padding-bottom: 40px; }
