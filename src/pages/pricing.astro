@@ -1,6 +1,21 @@
 ---
 import Layout from '../layouts/Layout.astro';
 const base = import.meta.env.BASE_URL;
+
+const planColumns = ['Free', 'Lifetime Pro'];
+
+const planRows = [
+  ['Whisper Tiny & Base, English and multilingual', '✓', '✓'],
+  ['Floating bubble in any app', '✓', '✓'],
+  ['Voice typing keyboard and voice-input popup', '✓', '✓'],
+  ['Models tab and support', '✓', '✓'],
+  ['Whisper Small, the most accurate Whisper', '✗', '✓'],
+  ['Parakeet voice models', '✗', '✓'],
+  ['Gemma voice models', '✗', '✓'],
+  ['Live transcription while you speak', '✗', '✓'],
+  ['Cloud models with your own key', '✗', '✓'],
+  ['AI post-processing with Gemma', '✗', '✓'],
+];
 ---
 <Layout title="Pricing – Ascuta" description="Ascuta is free to use, with an optional one-time Lifetime Pro purchase. No subscription, billed securely via Google Play.">
   <section class="page-header"><div class="container"><p class="eyebrow">Pricing</p><h1>Free to use. Pro, once.</h1><p class="lede">Everything you need to dictate stays free forever. One optional purchase unlocks the rest — a single payment, no subscription, no expiry.</p></div></section>
@@ -37,6 +52,8 @@ const base = import.meta.env.BASE_URL;
       </article>
     </div>
 
+    <div class="compare-wrap"><table class="compare-table"><thead><tr><th scope="col"><span class="visually-hidden">Feature</span></th>{planColumns.map((name, i) => <th scope="col" class={i === 1 ? 'compare-us' : undefined}>{name}</th>)}</tr></thead><tbody>{planRows.map(([label, ...cells]) => <tr><th scope="row">{label}</th>{cells.map((cell, i) => <td class={i === 1 ? 'compare-us' : undefined}>{cell}</td>)}</tr>)}</tbody></table></div>
+
     <article class="support-card billing-box">
       <h3>Billing</h3>
       <ol>
@@ -51,6 +68,7 @@ const base = import.meta.env.BASE_URL;
 </Layout>
 
 <style>
+  .compare-wrap { margin-bottom: 28px; }
   .price-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; margin-bottom: 28px; }
   .price-card { display: flex; flex-direction: column; padding: 32px; border: 1px solid var(--line); border-radius: 14px; background: #fff; }
   .price-featured { border: 2px solid var(--primary); }

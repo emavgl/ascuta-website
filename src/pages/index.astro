@@ -11,7 +11,7 @@ const features = [
   ['cpu', 'Agent mode', 'Dictate instructions instead of words: Ascuta carries them out and inserts the result.'],
   ['cloud', 'Optional cloud transcription', 'Use an OpenAI-compatible provider with your own key. Requests go straight from your phone to that provider.'],
   ['keyboard', 'Keep your keyboard', 'Ascuta complements the keyboard you already use instead of forcing you to replace it.'],
-  ['globe', '99 languages', 'Whisper models cover 99 languages with auto-detect; set one explicitly for the most consistent results.']
+  ['globe', 'Up to 99 languages', 'Several multilingual models are supported — Whisper covers up to 99 languages with auto-detect.']
 ];
 
 const icons = {
@@ -27,8 +27,8 @@ const icons = {
 
 const faqs = [
   ['Does local mode upload audio?', 'No. With a local engine, speech is processed on the device. Network access is used for model downloads and other operations you explicitly configure.', null],
-  ['Which model should I download?', 'For most people, Whisper Base: small download, 99 languages, solid accuracy. Pick Parakeet for fast European-language dictation or Nemotron for live words while you speak.', ['docs#models-voice', 'Models & hardware']],
-  ['Which languages can I dictate in?', 'Whisper covers 99 languages; Parakeet v3 covers 25 European languages; Nemotron covers 32 locales; the system engine follows your Language setting.', ['docs#languages', 'Supported languages']],
+  ['Which model should I download?', 'For most people, Whisper Base: small download, up to 99 languages, solid accuracy. Pick Parakeet for fast European-language dictation or Nemotron for live words while you speak.', ['docs#models-voice', 'Models & hardware']],
+  ['Which languages can I dictate in?', 'Whisper covers up to 99 languages; Parakeet v3 covers 25 European languages; Nemotron covers 32 locales; the system engine follows your Language setting.', ['docs#languages', 'Supported languages']],
   ['Why does the bubble need Accessibility permission?', 'Android only lets an app insert text into another app’s focused field through Accessibility Service. Ascuta uses it for that insertion after you tap the bubble.', ['docs#bubble', 'Floating bubble']],
   ['Can I use Ascuta without the bubble?', 'Yes. Use the voice-input popup or select Ascuta as an on-screen voice typing keyboard.', ['docs#ascuta-keyboard', 'Ascuta Keyboard']],
   ['What does post-processing do?', 'It can clean up grammar and punctuation, summarize the transcript, apply spoken formatting commands, or follow your own custom prompt.', ['docs#postprocessing-actions', 'Post-processing actions']],
