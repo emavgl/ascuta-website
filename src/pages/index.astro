@@ -8,8 +8,10 @@ const features = [
   ['phone', 'On-device first', 'Download a Whisper, Parakeet, Nemotron, or Gemma model once. Audio never leaves your phone, and no account is required.'],
   ['signal', 'Live words while you speak', 'Streaming engines show the transcript as you talk, then land the final text when you stop.'],
   ['sparkles', 'On-device AI post-processing', 'Clean up grammar, summarize, or translate locally — or with a cloud provider you choose.'],
+  ['cpu', 'Agent mode', 'Dictate instructions instead of words: Ascuta carries them out and inserts the result.'],
   ['cloud', 'Optional cloud transcription', 'Use an OpenAI-compatible provider with your own key. Requests go straight from your phone to that provider.'],
-  ['keyboard', 'Keep your keyboard', 'Ascuta complements the keyboard you already use instead of forcing you to replace it.']
+  ['keyboard', 'Keep your keyboard', 'Ascuta complements the keyboard you already use instead of forcing you to replace it.'],
+  ['globe', '99 languages', 'Whisper models cover 99 languages with auto-detect; set one explicitly for the most consistent results.']
 ];
 
 const icons = {
@@ -19,6 +21,8 @@ const icons = {
   sparkles: '<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456z"/></svg>',
   cloud: '<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15a4.5 4.5 0 004.5 4.5H18a3.75 3.75 0 001.332-7.257 3 3 0 00-3.758-3.848 5.25 5.25 0 00-10.233 2.33A4.502 4.502 0 002.25 15z"/></svg>',
   keyboard: '<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3 7a2 2 0 012-2h14a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2V7z"/><path stroke-linecap="round" d="M7 11h.01M11 11h.01M15 11h.01M17.5 11h.01M7 14.5h10"/></svg>',
+  cpu: '<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 3v1.5M4.5 8.25H3m18 0h-1.5M4.5 12H3m18 0h-1.5m-15 3.75H3m18 0h-1.5M8.25 19.5V21M12 3v1.5m0 15V21m3.75-18v1.5m0 15V21m-9-1.5h10.5a2.25 2.25 0 002.25-2.25V6.75a2.25 2.25 0 00-2.25-2.25H6.75A2.25 2.25 0 004.5 6.75v10.5a2.25 2.25 0 002.25 2.25zm.75-12h9v9h-9v-9z"/></svg>',
+  globe: '<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5a11.964 11.964 0 01-10.07-5.454M12 10.5a11.964 11.964 0 0010.07-5.454"/></svg>',
 };
 
 const faqs = [
@@ -28,6 +32,7 @@ const faqs = [
   ['Why does the bubble need Accessibility permission?', 'Android only lets an app insert text into another app’s focused field through Accessibility Service. Ascuta uses it for that insertion after you tap the bubble.', ['docs#bubble', 'Floating bubble']],
   ['Can I use Ascuta without the bubble?', 'Yes. Use the voice-input popup or select Ascuta as an on-screen voice typing keyboard.', ['docs#ascuta-keyboard', 'Ascuta Keyboard']],
   ['What does post-processing do?', 'It can clean up grammar and punctuation, summarize the transcript, apply spoken formatting commands, or follow your own custom prompt.', ['docs#postprocessing-actions', 'Post-processing actions']],
+  ['What is Agent mode?', 'Instead of dictating words, dictate an instruction — Ascuta carries it out and inserts the result.', ['docs#agent-mode', 'Agent mode']],
   ['What if an app does not accept inserted text?', 'Ascuta falls back to copying the transcript to the clipboard so it can be pasted manually.', ['docs#troubleshooting', 'Troubleshooting']],
 ];
 
@@ -41,6 +46,7 @@ const comparisonRows = [
   ['Keep your current keyboard', '✓', '✓', '✓'],
   ['Speech engines to choose from', '5', '1', '1'],
   ['On-device AI post-processing', '✓', '✗', 'Cloud only'],
+  ['Agent mode: dictate instructions', '✓', '✗', 'Desktop only'],
 ];
 ---
 

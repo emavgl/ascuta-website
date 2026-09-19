@@ -51,7 +51,6 @@ h1 { margin-bottom: 24px; color: var(--ink); font-size: clamp(42px, 7vw, 68px); 
 .section-heading h2 { margin-bottom: 14px; color: var(--ink); font-size: clamp(32px, 5vw, 44px); line-height: 1.1; letter-spacing: -.05em; font-weight: 800; }
 .section-heading p { color: var(--muted); font-size: 18px; }
 .feature-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
-.feature-grid .feature-card:nth-child(5), .feature-grid .feature-card:nth-child(6) { grid-column: span 2; }
 .feature-card { padding: 25px; border: 1px solid #eef0f3; border-radius: 14px; background: #fff; transition: border-color .15s ease, box-shadow .15s ease; }
 .feature-card:hover { border-color: var(--primary-soft); box-shadow: 0 5px 16px rgba(31, 31, 31, .05); }
 .feature-icon { margin-bottom: 16px; color: var(--primary); }
@@ -115,7 +114,6 @@ h1 { margin-bottom: 24px; color: var(--ink); font-size: clamp(42px, 7vw, 68px); 
   .nav-links a:nth-child(4) { display: none; }
   .hero-inner { padding-top: 72px; padding-bottom: 78px; }
   .feature-grid, .support-grid { grid-template-columns: repeat(2, 1fr); }
-  .feature-grid .feature-card:nth-child(5), .feature-grid .feature-card:nth-child(6) { grid-column: span 1; }
   .cta-inner { align-items: flex-start; flex-direction: column; }
   .footer-grid { grid-template-columns: 1fr 1fr; gap: 28px; }
   .footer-grid > :first-child { grid-column: 1 / -1; }

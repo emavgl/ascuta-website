@@ -20,6 +20,7 @@ const base = import.meta.env.BASE_URL;
         <li><a href="#models-voice">Voice models</a></li>
         <li><a href="#models-postprocessing">Post-processing models</a></li>
         <li><a href="#postprocessing-actions">Post-processing actions</a></li>
+        <li><a href="#agent-mode">Agent mode</a></li>
         <li><a href="#hardware">Hardware &amp; storage</a></li>
         <li><a href="#languages">Supported languages</a></li>
         <li><a href="#troubleshooting">Troubleshooting</a></li>
@@ -158,6 +159,18 @@ const base = import.meta.env.BASE_URL;
           <li><strong>Custom prompt:</strong> your own instruction replaces the three actions above entirely.</li>
         </ol>
         <p>Cleanup and summarize can run together; voice commands apply on top. If the result looks invented rather than edited, Ascuta falls back to the raw transcript.</p>
+      </article>
+
+      <h2 id="agent-mode">Agent mode</h2>
+      <article class="support-card">
+        <h3>Dictate instructions instead of words</h3>
+        <p>With Agent mode on, your speech is treated as an instruction to carry out, not text to write down. Say <em>“reply to this message saying I’ll be ten minutes late”</em> and Ascuta inserts the finished reply — no greeting, no explanation, ready to send.</p>
+        <ol>
+          <li><strong>Toggle it</strong> by double-tapping the microphone on the bubble, the Ascuta Keyboard, or the voice-input popup. The mic is tinted while Agent mode is on. Each surface remembers its own toggle.</li>
+          <li><strong>Starting behavior</strong> comes from settings: start every dictation in Agent mode, or pick up where you left off with “keep last mode”.</li>
+          <li><strong>Screen context (bubble only):</strong> while you record, Ascuta reads the visible screen and summarizes it — its language and what it is about. Your reply then fits the conversation: same language, same names and details, continuing the current topic. Turn it off in settings to dictate without screen context.</li>
+        </ol>
+        <p>Agent mode needs Lifetime Pro and a selected post-processing model, since the same on-device or cloud model executes your instruction. Without a readable screen it simply runs the instruction on its own.</p>
       </article>
 
       <h2 id="hardware">Hardware &amp; storage</h2>
