@@ -17,6 +17,10 @@ const base = import.meta.env.BASE_URL;
         <li><a href="#bubble">Floating bubble</a></li>
         <li><a href="#popup">Voice-input popup</a></li>
         <li><a href="#other">Other keyboards</a></li>
+        <li><a href="#models-voice">Voice models</a></li>
+        <li><a href="#models-postprocessing">Post-processing models</a></li>
+        <li><a href="#postprocessing-actions">Post-processing actions</a></li>
+        <li><a href="#hardware">Hardware &amp; storage</a></li>
         <li><a href="#troubleshooting">Troubleshooting</a></li>
       </ol>
     </nav>
@@ -114,6 +118,59 @@ const base = import.meta.env.BASE_URL;
         <p>If your keyboard exposes Android’s standard voice-input action (often a microphone key or a long-press option), it may also open the <a href="#popup">Ascuta popup</a> directly.</p>
       </article>
 
+      <h2 id="models-voice">Voice models</h2>
+      <article class="support-card">
+        <h3>Pick an engine, then download one model for it</h3>
+        <p>Everything below except cloud runs fully on your phone after a one-time download. Sizes are approximate; use Wi-Fi for the large ones.</p>
+        <ol>
+          <li><strong>System (ML Kit):</strong> nothing to download. Streams with live words while you speak, using the phone’s built-in speech model where available.</li>
+          <li><strong>Whisper — Tiny (~111 MB):</strong> fastest, for older phones. English-only or 99-language variant.</li>
+          <li><strong>Whisper — Base (~198 MB, recommended):</strong> the balanced default. English-only or 99-language variant.</li>
+          <li><strong>Whisper — Small (~610 MB):</strong> most accurate Whisper, for difficult audio. English-only or 99-language variant.</li>
+          <li><strong>Parakeet TDT 0.6B v3 (~465 MB):</strong> best quality for 25 European languages with auto-detect.</li>
+          <li><strong>Parakeet TDT 0.6B v2 (~450 MB):</strong> great quality, English only.</li>
+          <li><strong>Parakeet TDT-CTC 110M (~100 MB):</strong> fastest, English only.</li>
+          <li><strong>Nemotron 3.5 streaming (~475 MB):</strong> live words while you speak, 32 languages with auto-detect.</li>
+          <li><strong>Gemma transcription (~2.6–4.9 GB):</strong> accurate on-device audio models (Gemma 4 E2B/E4B open; Gemma 3n gated behind a Hugging Face token). Best for short clips of about 30 seconds; needs a powerful phone (see below).</li>
+          <li><strong>Cloud (OpenAI-compatible):</strong> no download. Uses your own API key; audio goes straight from your phone to that provider — Ascuta runs no relay server.</li>
+        </ol>
+        <p>Short on space? Start with Whisper Base or Parakeet CTC. You can switch engines anytime without losing the others.</p>
+      </article>
+
+      <h2 id="models-postprocessing">Post-processing models</h2>
+      <article class="support-card">
+        <h3>Polish the transcript after dictation</h3>
+        <p>Post-processing is a Lifetime Pro feature. Two paths:</p>
+        <ol>
+          <li><strong>On-device (Gemma 4 E2B ~2.6 GB recommended, or E4B ~3.7 GB):</strong> open downloads, work offline, use your editable prompt. The gated Gemma 3n variants additionally need a Hugging Face token.</li>
+          <li><strong>Cloud (OpenAI-compatible):</strong> uses your own API key and your editable prompt.</li>
+        </ol>
+      </article>
+
+      <h2 id="postprocessing-actions">Post-processing actions</h2>
+      <article class="support-card">
+        <h3>Combine them; a custom prompt overrides all</h3>
+        <ol>
+          <li><strong>Cleanup:</strong> fixes punctuation, capitalization, spelling, and clear grammar slips — staying in the transcript’s language, never paraphrasing.</li>
+          <li><strong>Summarize:</strong> condenses the transcript to its essentials, in the same language.</li>
+          <li><strong>Voice commands:</strong> applies spoken formatting and editing instructions (“delete the last sentence”, “make it formal”) during cleanup.</li>
+          <li><strong>Custom prompt:</strong> your own instruction replaces the three actions above entirely.</li>
+        </ol>
+        <p>Cleanup and summarize can run together; voice commands apply on top. If the result looks invented rather than edited, Ascuta falls back to the raw transcript.</p>
+      </article>
+
+      <h2 id="hardware">Hardware &amp; storage</h2>
+      <article class="support-card">
+        <h3>What your phone needs</h3>
+        <ol>
+          <li><strong>Android 11 or newer.</strong></li>
+          <li><strong>Small models</strong> (Whisper Tiny/Base, Parakeet CTC, system engine) run on most phones.</li>
+          <li><strong>Large models</strong> (Whisper Small, Parakeet 0.6B, Nemotron) want a mid-range phone and ~500–600 MB of free space each.</li>
+          <li><strong>Gemma models</strong> need 8 GB or more of RAM and 2.6–4.9 GB of free space. Loading takes about 10 seconds and the model stays cached for fast repeats.</li>
+          <li><strong>Idle footprint:</strong> models unload automatically when idle (configurable: after each dictation, after 5 minutes, or kept loaded), so they cost no RAM when you are not dictating.</li>
+        </ol>
+      </article>
+
       <h2 id="troubleshooting">Troubleshooting</h2>
       <div class="support-grid">
         <article class="support-card"><h3>No microphone or no words</h3><p>Check Android microphone permission, close any other app using the microphone, and retry from Ascuta’s test screen.</p></article>
@@ -122,7 +179,7 @@ const base = import.meta.env.BASE_URL;
         <article class="support-card"><h3>Cloud transcription fails</h3><p>Check the configured API key, provider endpoint, network connection, account limits, and the provider’s request format.</p></article>
       </div>
 
-      <p class="support-note">For permissions, models and privacy details, see the <a href={`${base}support`}>support guide</a> and the <a href={`${base}privacy-policy`}>Privacy Policy</a>.</p>
+      <p class="support-note">For privacy details, see the <a href={`${base}privacy-policy`}>Privacy Policy</a>.</p>
     </div>
   </div></section>
 </Layout>
