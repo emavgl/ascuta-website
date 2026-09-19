@@ -1,0 +1,68 @@
+---
+import Layout from '../layouts/Layout.astro';
+const base = import.meta.env.BASE_URL;
+---
+<Layout title="Pricing – Ascuta" description="Ascuta is free to use, with an optional one-time Lifetime Pro purchase. No subscription, billed securely via Google Play.">
+  <section class="page-header"><div class="container"><p class="eyebrow">Pricing</p><h1>Free to use. Pro, once.</h1><p class="lede">Everything you need to dictate stays free forever. One optional purchase unlocks the rest — a single payment, no subscription, no expiry.</p></div></section>
+
+  <section class="section"><div class="container narrow">
+    <div class="price-grid">
+      <article class="price-card">
+        <h2>Free</h2>
+        <p class="price-sub">Dictate every day, free forever.</p>
+        <p class="price-amount">Free</p>
+        <ul class="price-list">
+          <li><span aria-hidden="true">✓</span> Whisper Tiny &amp; Base, English and multilingual</li>
+          <li><span aria-hidden="true">✓</span> Floating bubble in any app</li>
+          <li><span aria-hidden="true">✓</span> Voice typing keyboard and voice-input popup</li>
+          <li><span aria-hidden="true">✓</span> Models tab and support</li>
+        </ul>
+        <a class="button button-secondary" href={`${base}docs`}>Get started</a>
+      </article>
+
+      <article class="price-card price-featured">
+        <p class="price-badge">One-time · no subscription</p>
+        <h2>Lifetime Pro</h2>
+        <p class="price-sub">For power dictators and professionals.</p>
+        <p class="price-amount">One payment</p>
+        <p class="price-note">Everything in Free, plus:</p>
+        <ul class="price-list">
+          <li><span aria-hidden="true">✓</span> Whisper Small, the most accurate Whisper</li>
+          <li><span aria-hidden="true">✓</span> Parakeet and Gemma voice models</li>
+          <li><span aria-hidden="true">✓</span> Live transcription while you speak</li>
+          <li><span aria-hidden="true">✓</span> Bring-your-own-key cloud models</li>
+          <li><span aria-hidden="true">✓</span> AI post-processing with Gemma</li>
+        </ul>
+        <a class="button button-primary" href={`${base}docs#models-postprocessing`}>See what Pro unlocks</a>
+      </article>
+    </div>
+
+    <article class="support-card billing-box">
+      <h3>Billing</h3>
+      <ol>
+        <li>Lifetime Pro is a single purchase handled entirely by Google Play — Ascuta never sees your payment details.</li>
+        <li>No subscription and no expiry: pay once, keep it. Restore is available on the paywall.</li>
+        <li>The app stores only an encrypted local flag and re-checks ownership with Play on every start, so reinstalls and refunds are reflected automatically.</li>
+        <li>The exact price is shown in the app before you confirm anything.</li>
+      </ol>
+      <p>See the <a href={`${base}terms`}>Terms &amp; Conditions</a> for purchase, withdrawal, and warranty information.</p>
+    </article>
+  </div></section>
+</Layout>
+
+<style>
+  .price-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; margin-bottom: 28px; }
+  .price-card { display: flex; flex-direction: column; padding: 32px; border: 1px solid var(--line); border-radius: 14px; background: #fff; }
+  .price-featured { border: 2px solid var(--primary); }
+  .price-badge { align-self: flex-start; margin: 0 0 14px; padding: 5px 12px; border-radius: 999px; background: var(--primary-soft); color: var(--primary-on-soft); font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; }
+  .price-card h2 { margin-bottom: 6px; color: var(--ink); font-size: 24px; }
+  .price-sub { margin-bottom: 14px; color: var(--muted); font-size: 15px; }
+  .price-amount { margin-bottom: 6px; color: var(--ink); font-size: 30px; font-weight: 800; letter-spacing: -.03em; }
+  .price-note { margin: 10px 0 0; color: var(--ink); font-size: 15px; font-weight: 700; }
+  .price-list { list-style: none; margin: 14px 0 26px; padding: 0; flex: 1; }
+  .price-list li { display: flex; gap: 10px; margin: 10px 0; color: var(--muted); font-size: 15px; line-height: 1.6; }
+  .price-list span { color: var(--primary); font-weight: 700; }
+  .price-card .button { align-self: stretch; text-align: center; }
+  .billing-box ol { padding-left: 22px; }
+  @media (max-width: 700px) { .price-grid { grid-template-columns: 1fr; } }
+</style>

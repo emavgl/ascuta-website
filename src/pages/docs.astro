@@ -21,6 +21,7 @@ const base = import.meta.env.BASE_URL;
         <li><a href="#models-postprocessing">Post-processing models</a></li>
         <li><a href="#postprocessing-actions">Post-processing actions</a></li>
         <li><a href="#hardware">Hardware &amp; storage</a></li>
+        <li><a href="#languages">Supported languages</a></li>
         <li><a href="#troubleshooting">Troubleshooting</a></li>
       </ol>
     </nav>
@@ -169,6 +170,22 @@ const base = import.meta.env.BASE_URL;
           <li><strong>Gemma models</strong> need 8 GB or more of RAM and 2.6–4.9 GB of free space. Loading takes about 10 seconds and the model stays cached for fast repeats.</li>
           <li><strong>Idle footprint:</strong> models unload automatically when idle (configurable: after each dictation, after 5 minutes, or kept loaded), so they cost no RAM when you are not dictating.</li>
         </ol>
+      </article>
+
+      <h2 id="languages">Supported languages</h2>
+      <article class="support-card">
+        <h3>Coverage depends on the engine you pick</h3>
+        <ol>
+          <li><strong>Whisper multilingual (Tiny / Base / Small):</strong> 99 languages with auto-detect — the full list is below.</li>
+          <li><strong>Whisper English-only variants:</strong> English. Smaller download when you only dictate in English.</li>
+          <li><strong>Parakeet TDT 0.6B v3:</strong> 25 European languages with auto-detect: Bulgarian, Croatian, Czech, Danish, Dutch, English, Estonian, Finnish, French, German, Greek, Hungarian, Italian, Latvian, Lithuanian, Maltese, Polish, Portuguese, Romanian, Slovak, Slovenian, Spanish, Swedish, Russian, Ukrainian.</li>
+          <li><strong>Parakeet TDT 0.6B v2 and TDT-CTC 110M:</strong> English only.</li>
+          <li><strong>Nemotron streaming:</strong> 32 locales with auto-detect: English, Spanish, French, Italian, Portuguese, Dutch, German, Turkish, Russian, Arabic, Hindi, Japanese, Korean, Vietnamese, Ukrainian, Polish, Swedish, Czech, Norwegian, Danish, Bulgarian, Finnish, Croatian, Slovak, Mandarin, Hungarian, Romanian, Estonian.</li>
+          <li><strong>System (ML Kit):</strong> follows the app Language setting — about two dozen locales including English, French, Italian, German, Spanish, Hindi, Japanese, Portuguese, Turkish, Polish, Chinese, Korean, Russian, Vietnamese, Dutch, Danish, Swedish, Thai, Indonesian, and Arabic. Anything else falls back to US English.</li>
+          <li><strong>Gemma transcription and cloud mode:</strong> multilingual; coverage follows the underlying model or provider (OpenAI Whisper covers 99 languages).</li>
+        </ol>
+        <p>Tip: set Language explicitly instead of Auto-detect for the most consistent results, especially with live transcription.</p>
+        <p class="small-note">Whisper multilingual covers: English, Chinese, German, Spanish, Russian, Korean, French, Japanese, Portuguese, Turkish, Polish, Catalan, Dutch, Arabic, Swedish, Italian, Indonesian, Hindi, Finnish, Vietnamese, Hebrew, Ukrainian, Greek, Malay, Czech, Romanian, Danish, Hungarian, Tamil, Norwegian, Thai, Urdu, Croatian, Bulgarian, Lithuanian, Latin, Maori, Malayalam, Welsh, Slovak, Telugu, Persian, Latvian, Bengali, Serbian, Azerbaijani, Slovenian, Kannada, Estonian, Macedonian, Breton, Basque, Icelandic, Armenian, Nepali, Mongolian, Bosnian, Kazakh, Albanian, Swahili, Galician, Marathi, Punjabi, Sinhala, Khmer, Shona, Yoruba, Somali, Afrikaans, Occitan, Georgian, Belarusian, Tajik, Sindhi, Gujarati, Amharic, Yiddish, Lao, Uzbek, Faroese, Haitian Creole, Pashto, Turkmen, Nynorsk, Maltese, Sanskrit, Luxembourgish, Myanmar, Tibetan, Tagalog, Malagasy, Assamese, Tatar, Hawaiian, Lingala, Hausa, Bashkir, Javanese, Sundanese.</p>
       </article>
 
       <h2 id="troubleshooting">Troubleshooting</h2>
