@@ -52,6 +52,7 @@ const planRows = [
       </article>
     </div>
 
+    <div class="section-heading"><p class="eyebrow">Compare plans</p><h2>See the full feature table.</h2></div>
     <div class="compare-wrap"><table class="compare-table"><thead><tr><th scope="col"><span class="visually-hidden">Feature</span></th>{planColumns.map((name, i) => <th scope="col" class={i === 1 ? 'compare-us' : undefined}>{name}</th>)}</tr></thead><tbody>{planRows.map(([label, ...cells]) => <tr><th scope="row">{label}</th>{cells.map((cell, i) => <td class={i === 1 ? 'compare-us' : undefined}>{cell}</td>)}</tr>)}</tbody></table></div>
 
     <article class="support-card billing-box">
