@@ -94,6 +94,8 @@ h1 { margin-bottom: 24px; color: var(--ink); font-size: clamp(42px, 7vw, 68px); 
 .compare-table td, .compare-table thead th:not(:first-child) { text-align: center; }
 .compare-table tbody th:first-child { text-align: left; }
 .compare-us { background: var(--primary-soft); color: var(--primary-on-soft); font-weight: 700; }
+.mark-free { color: #1a7f37; font-weight: 800; }
+.mark-pro { color: var(--primary); font-weight: 800; }
 .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
 .site-footer { padding: 48px 0 28px; border-top: 1px solid var(--line); background: var(--soft); }
