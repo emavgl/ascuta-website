@@ -24,7 +24,7 @@ const planRows = [
       <article class="price-card">
         <h2>Free</h2>
         <p class="price-sub">Dictate every day, free forever.</p>
-        <p class="price-amount">€0, forever</p>
+        <p class="price-amount">Free forever</p>
         <ul class="price-list">
           <li><span aria-hidden="true">✓</span> Whisper Tiny &amp; Base, English and multilingual</li>
           <li><span aria-hidden="true">✓</span> Floating bubble in any app</li>
@@ -37,7 +37,8 @@ const planRows = [
         <p class="price-badge">One-time · no subscription</p>
         <h2>Lifetime Pro</h2>
         <p class="price-sub">For power dictators and professionals.</p>
-        <p class="price-amount">One payment</p>
+        <p class="price-amount" data-price>$5.49</p>
+        <p class="price-local">One-time payment, <span data-price-note>shown in USD</span></p>
         <p class="price-note">Everything in Free, plus:</p>
         <ul class="price-list">
           <li><span aria-hidden="true">✓</span> Whisper Small, the most accurate Whisper</li>
@@ -75,6 +76,7 @@ const planRows = [
   .price-card h2 { margin-bottom: 6px; color: var(--ink); font-size: 24px; }
   .price-sub { margin-bottom: 14px; color: var(--muted); font-size: 15px; }
   .price-amount { margin-bottom: 6px; color: var(--ink); font-size: 30px; font-weight: 800; letter-spacing: -.03em; }
+  .price-local { margin-bottom: 14px; color: var(--muted); font-size: 14px; }
   .price-note { margin: 10px 0 0; color: var(--ink); font-size: 15px; font-weight: 700; }
   .price-list { list-style: none; margin: 14px 0 26px; padding: 0; flex: 1; }
   .price-list li { display: flex; gap: 10px; margin: 10px 0; color: var(--muted); font-size: 15px; line-height: 1.6; }
@@ -83,3 +85,95 @@ const planRows = [
   .billing-box ol { padding-left: 22px; }
   @media (max-width: 700px) { .price-grid { grid-template-columns: 1fr; } }
 </style>
+
+<script>
+  // Prices come from Google Play (public/prices.json, regenerated with
+  // `npm run prices`). We show the visitor's regional price when we can
+  // determine their country and it exists in the Play price list, otherwise
+  // we fall back to USD.
+  const GEO_ENDPOINT = 'https://api.country.is/';
+  const TIMEOUT_MS = 5000;
+
+  interface PriceEntry {
+    currency: string;
+    amount: number;
+  }
+
+  interface Prices {
+    fallback: PriceEntry;
+    regions?: Record<string, PriceEntry>;
+  }
+
+  function formatPrice(entry: PriceEntry) {
+    try {
+      return new Intl.NumberFormat(navigator.language || undefined, {
+        style: 'currency',
+        currency: entry.currency,
+        currencyDisplay: 'symbol',
+      }).format(entry.amount);
+    } catch {
+      return `${entry.currency} ${entry.amount}`;
+    }
+  }
+
+  function countryFromLocale() {
+    for (const tag of navigator.languages || [navigator.language]) {
+      if (!tag) continue;
+      try {
+        const region = new Intl.Locale(tag).region;
+        if (region) return region;
+      } catch {}
+      const match = /[-_]([A-Za-z]{2})$/.exec(tag);
+      if (match) return match[1].toUpperCase();
+    }
+    return null;
+  }
+
+  async function detectCountry() {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), TIMEOUT_MS);
+    try {
+      const response = await fetch(GEO_ENDPOINT, { signal: controller.signal });
+      if (response.ok) {
+        const data = await response.json();
+        if (data && data.country) return String(data.country).toUpperCase();
+      }
+    } catch {
+    } finally {
+      clearTimeout(timer);
+    }
+    return countryFromLocale();
+  }
+
+  async function applyPrices() {
+    if (!document.querySelector('[data-price]')) return;
+
+    let prices: Prices;
+    try {
+      const response = await fetch(`${import.meta.env.BASE_URL}prices.json`, { cache: 'no-cache' });
+      if (!response.ok) throw new Error(String(response.status));
+      prices = await response.json();
+    } catch {
+      return;
+    }
+
+    const country = await detectCountry();
+    const regional = country && prices.regions ? prices.regions[country] : null;
+    const entry = regional || prices.fallback;
+    if (!entry) return;
+
+    const amount = formatPrice(entry);
+    const note = regional
+      ? `shown in ${entry.currency}`
+      : `shown in ${entry.currency}, local price unavailable`;
+
+    document.querySelectorAll('[data-price]').forEach((el) => {
+      el.textContent = amount;
+    });
+    document.querySelectorAll('[data-price-note]').forEach((el) => {
+      el.textContent = note;
+    });
+  }
+
+  applyPrices();
+</script>
