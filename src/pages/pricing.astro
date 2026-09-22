@@ -24,7 +24,7 @@ const planRows = [
       <article class="price-card">
         <h2>Free</h2>
         <p class="price-sub">Dictate every day, free forever.</p>
-        <p class="price-amount">Free forever</p>
+        <p class="price-amount" data-free-price>$0, forever</p>
         <ul class="price-list">
           <li><span aria-hidden="true">✓</span> Whisper Tiny &amp; Base, English and multilingual</li>
           <li><span aria-hidden="true">✓</span> Floating bubble in any app</li>
@@ -172,6 +172,11 @@ const planRows = [
     });
     document.querySelectorAll('[data-price-note]').forEach((el) => {
       el.textContent = note;
+    });
+
+    const free = entry.currency === 'EUR' ? '€0, forever' : '$0, forever';
+    document.querySelectorAll('[data-free-price]').forEach((el) => {
+      el.textContent = free;
     });
   }
 
