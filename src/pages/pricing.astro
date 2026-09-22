@@ -22,9 +22,12 @@ const planRows = [
   <section class="section"><div class="container narrow">
     <div class="price-grid">
       <article class="price-card">
+        <p class="price-badge">Always free</p>
         <h2>Free</h2>
         <p class="price-sub">Dictate every day, free forever.</p>
         <p class="price-amount" data-free-price>$0, forever</p>
+        <p class="price-local">No payment, no account</p>
+        <p class="price-list-lead">Includes:</p>
         <ul class="price-list">
           <li><span aria-hidden="true">✓</span> Whisper Tiny &amp; Base, English and multilingual</li>
           <li><span aria-hidden="true">✓</span> Floating bubble in any app</li>
@@ -39,7 +42,7 @@ const planRows = [
         <p class="price-sub">For power dictators and professionals.</p>
         <p class="price-amount" data-price>$5.49</p>
         <p class="price-local">One-time payment, <span data-price-note>shown in USD</span></p>
-        <p class="price-note">Everything in Free, plus:</p>
+        <p class="price-list-lead">Everything in Free, plus:</p>
         <ul class="price-list">
           <li><span aria-hidden="true">✓</span> Whisper Small, the most accurate Whisper</li>
           <li><span aria-hidden="true">✓</span> Parakeet and Gemma voice models</li>
@@ -69,21 +72,28 @@ const planRows = [
 
 <style>
   .compare-wrap { margin-bottom: 28px; }
-  .price-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; margin-bottom: 28px; }
-  .price-card { display: flex; flex-direction: column; padding: 32px; border: 1px solid var(--line); border-radius: 14px; background: #fff; }
+  /* Shared row tracks keep both cards the same height with prices, list
+     headings and lists aligned on the same horizontal lines. */
+  .price-grid { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: auto auto auto auto auto auto 1fr auto; column-gap: 22px; row-gap: 0; margin-bottom: 28px; }
+  .price-card { display: grid; grid-row: span 8; grid-template-rows: subgrid; row-gap: 0; padding: 32px; border: 1px solid var(--line); border-radius: 14px; background: #fff; }
   .price-featured { border: 2px solid var(--primary); }
-  .price-badge { align-self: flex-start; margin: 0 0 14px; padding: 5px 12px; border-radius: 999px; background: var(--primary-soft); color: var(--primary-on-soft); font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; }
+  .price-badge { align-self: start; justify-self: start; margin: 0 0 14px; padding: 5px 12px; border-radius: 999px; background: var(--primary-soft); color: var(--primary-on-soft); font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; }
   .price-card h2 { margin-bottom: 6px; color: var(--ink); font-size: 24px; }
   .price-sub { margin-bottom: 14px; color: var(--muted); font-size: 15px; }
   .price-amount { margin-bottom: 6px; color: var(--ink); font-size: 30px; font-weight: 800; letter-spacing: -.03em; }
   .price-local { margin-bottom: 14px; color: var(--muted); font-size: 14px; }
-  .price-note { margin: 10px 0 0; color: var(--ink); font-size: 15px; font-weight: 700; }
-  .price-list { list-style: none; margin: 14px 0 26px; padding: 0; flex: 1; }
+  .price-list-lead { margin: 0 0 12px; color: var(--ink); font-size: 15px; font-weight: 700; }
+  .price-list { list-style: none; margin: 0 0 26px; padding: 0; }
   .price-list li { display: flex; gap: 10px; margin: 10px 0; color: var(--muted); font-size: 15px; line-height: 1.6; }
   .price-list span { color: var(--primary); font-weight: 700; }
   .price-card .button { align-self: stretch; text-align: center; }
+  .price-card .small-note { align-self: center; margin: 0; }
   .billing-box ol { padding-left: 22px; }
-  @media (max-width: 700px) { .price-grid { grid-template-columns: 1fr; } }
+  @media (max-width: 700px) {
+    .price-grid { grid-template-columns: 1fr; grid-template-rows: none; }
+    .price-card { grid-row: auto; grid-template-rows: none; display: flex; flex-direction: column; }
+    .price-list { flex: 1; }
+  }
 </style>
 
 <script>
