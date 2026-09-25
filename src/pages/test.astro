@@ -16,9 +16,8 @@ import Layout from '../layouts/Layout.astro';
         <div class="app">
           <div class="app-header"><span class="avatar">A</span><span class="app-name">Anna</span><span class="app-dots">&#8942;</span></div>
           <div class="chat">
-            <div class="msg in">Ci vediamo domani?</div>
-            <div class="msg in">Alle 8?</div>
-            <div class="msg out" id="sent-msg" hidden>Ciao, ci vediamo alle otto?</div>
+            <div class="msg in">Are we still on for tomorrow?</div>
+            <div class="msg out" id="sent-msg" hidden>Yes, see you at eight!</div>
           </div>
           <div class="composer">
             <div class="field"><span class="field-text" id="field-text"></span><span class="caret"></span></div>
@@ -28,7 +27,7 @@ import Layout from '../layouts/Layout.astro';
             <div class="key-row"><span>Q</span><span>W</span><span>E</span><span>R</span><span>T</span><span>Y</span><span>U</span><span>I</span><span>O</span><span>P</span></div>
             <div class="key-row"><span>A</span><span>S</span><span>D</span><span>F</span><span>G</span><span>H</span><span>J</span><span>K</span><span>L</span></div>
             <div class="key-row"><span class="wide">&#8679;</span><span>Z</span><span>X</span><span>C</span><span>V</span><span>B</span><span>N</span><span>M</span><span class="wide">&#9003;</span></div>
-            <div class="key-row"><span class="wide">?123</span><span class="space">it</span><span class="wide">&#9166;</span></div>
+            <div class="key-row"><span class="wide">?123</span><span class="space">en</span><span class="wide">&#9166;</span></div>
           </div>
         </div>
 
@@ -60,9 +59,9 @@ import Layout from '../layouts/Layout.astro';
     const ring = ringEl instanceof SVGCircleElement ? ringEl : null;
 
     const C = 2 * Math.PI * 26;
-    const RAW = 'ehm ciao ci vediamo alle otto';
+    const RAW = 'ehm yes see you at eight';
     const CLEANED =
-      '<span class="fix">C</span>iao<span class="fix">,</span> ci vediamo alle otto<span class="fix">?</span>';
+      '<span class="fix">Y</span>es<span class="fix">,</span> see you at eight<span class="fix">!</span>';
     let generation = 0;
 
     if (ring) {
@@ -128,7 +127,7 @@ import Layout from '../layouts/Layout.astro';
         ring.style.strokeDashoffset = String(C);
       }
       setFeedback('Cleaning up…');
-      if (transcript) transcript.innerHTML = '<span class="fill">ehm </span>ciao ci vediamo alle otto';
+      if (transcript) transcript.innerHTML = '<span class="fill">ehm </span>yes see you at eight';
       if (!(await wait(800, gen))) return;
       if (transcript) transcript.hidden = true;
       // The cleaned text — not the raw transcript — lands in the field.
