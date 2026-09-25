@@ -82,12 +82,17 @@ import Layout from '../layouts/Layout.astro';
   </script>
 
   <style>
-    .redeem-card { text-align: center; }
-    .redeem-card > p { color: var(--muted); line-height: 1.65; }
-    .redeem-code { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: center; margin: 12px 0 22px; }
-    .redeem-code code { padding: 12px 18px; border: 1px dashed var(--primary); border-radius: 10px; background: var(--primary-soft); color: var(--primary-on-soft); font-size: 20px; font-weight: 700; letter-spacing: .06em; }
-    .redeem-result > p { color: var(--muted); }
+    .redeem-card { max-width: 640px; margin: 0 auto; padding: 44px 36px; text-align: center; }
+    .redeem-card > p, .redeem-result > p { color: var(--muted); line-height: 1.75; }
+    .redeem-card > p { margin: 0 0 22px; }
+    #claim-btn { margin-top: 4px; }
+    .redeem-result { margin-top: 10px; }
+    .redeem-result > p { margin: 0 0 20px; }
+    .redeem-code { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: center; margin: 22px 0 26px; }
+    .redeem-code code { padding: 14px 20px; border: 1px dashed var(--primary); border-radius: 10px; background: var(--primary-soft); color: var(--primary-on-soft); font-size: 20px; font-weight: 700; letter-spacing: .06em; }
     .redeem-note { font-size: 14px; }
-    .redeem-error { color: #B00020; font-weight: 600; }
+    .redeem-result .button { margin-top: 6px; }
+    .redeem-error { margin: 20px 0 0; color: #B00020; font-weight: 600; }
+    @media (max-width: 520px) { .redeem-card { padding: 34px 22px; } }
   </style>
 </Layout>
