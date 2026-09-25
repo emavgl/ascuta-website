@@ -32,8 +32,6 @@ import Layout from '../layouts/Layout.astro';
           </div>
         </div>
 
-        <div class="wave" id="wave" hidden><i></i><i></i><i></i><i></i><i></i></div>
-
         <div class="bubble-wrap" id="bubble-wrap">
           <svg class="bubble-ring" viewBox="0 0 56 56" width="56" height="56">
             <circle class="progress" cx="28" cy="28" r="26" fill="none" stroke="#FF5A00" stroke-width="3.5" stroke-linecap="round" transform="rotate(-90 28 28)"></circle>
@@ -53,7 +51,6 @@ import Layout from '../layouts/Layout.astro';
     const wrap = document.getElementById('bubble-wrap');
     const feedback = document.getElementById('feedback');
     const fieldText = document.getElementById('field-text');
-    const wave = document.getElementById('wave');
     const sentMsg = document.getElementById('sent-msg');
     const replay = document.getElementById('replay');
 
@@ -61,7 +58,9 @@ import Layout from '../layouts/Layout.astro';
     const ring = ringEl instanceof SVGCircleElement ? ringEl : null;
 
     const C = 2 * Math.PI * 26;
-    const TEXT = 'Ciao, ci vediamo alle otto?';
+    const RAW = 'ehm ciao ci vediamo alle otto';
+    const CLEANED =
+      '<span class="fix">C</span>iao<span class="fix">,</span> ci vediamo alle otto<span class="fix">?</span>';
     let generation = 0;
 
     if (ring) {
@@ -78,13 +77,13 @@ import Layout from '../layouts/Layout.astro';
       feedback.hidden = false;
     }
 
-    async function typeText(gen: number, duration: number) {
+    async function typeRaw(gen: number, duration: number) {
       if (!fieldText) return;
       fieldText.textContent = '';
-      const step = Math.max(26, duration / TEXT.length);
-      for (let i = 1; i <= TEXT.length; i++) {
+      const step = Math.max(30, duration / RAW.length);
+      for (let i = 1; i <= RAW.length; i++) {
         if (gen !== generation) return;
-        fieldText.textContent = TEXT.slice(0, i);
+        fieldText.textContent = RAW.slice(0, i);
         await wait(step, gen);
       }
     }
@@ -95,7 +94,6 @@ import Layout from '../layouts/Layout.astro';
       wrap.className = 'bubble-wrap';
       fieldText.textContent = '';
       if (sentMsg) sentMsg.hidden = true;
-      if (wave) wave.hidden = true;
       if (feedback) feedback.hidden = true;
       if (ring) {
         ring.style.transition = 'none';
@@ -103,34 +101,35 @@ import Layout from '../layouts/Layout.astro';
       }
       if (!(await wait(900, gen))) return;
 
-      // Tap: start recording. Ring fills then depletes like the app's timer.
+      // Tap: recording. The ring grows clockwise, like the app's time ring.
       bubble.classList.add('recording');
       wrap.classList.add('live');
       setFeedback('Listening…');
-      if (wave) wave.hidden = false;
       if (ring) {
-        ring.style.transition = 'none';
-        ring.style.strokeDashoffset = '0';
-        requestAnimationFrame(() =>
-          requestAnimationFrame(() => {
-            if (!ring) return;
-            ring.style.transition = 'stroke-dashoffset 2.8s linear';
-            ring.style.strokeDashoffset = String(C);
-          }),
-        );
+        requestAnimationFrame(() => {
+          if (!ring) return;
+          ring.style.transition = 'stroke-dashoffset 2.8s linear';
+          ring.style.strokeDashoffset = '0';
+        });
       }
-      await typeText(gen, 2600);
+      await typeRaw(gen, 2600);
       if (gen !== generation) return;
-      if (wave) wave.hidden = true;
 
-      // Stop: transcribe / clean up (indeterminate orange arc).
+      // Stop: post-processing. Show the filler being removed, then the cleanup.
       bubble.classList.remove('recording');
       wrap.classList.remove('live');
       wrap.classList.add('busy');
+      if (ring) {
+        ring.style.transition = 'none';
+        ring.style.strokeDashoffset = String(C);
+      }
       setFeedback('Cleaning up…');
-      if (!(await wait(1200, gen))) return;
+      fieldText.innerHTML = '<span class="fill">ehm </span>ciao ci vediamo alle otto';
+      if (!(await wait(700, gen))) return;
+      fieldText.innerHTML = CLEANED;
+      if (!(await wait(1000, gen))) return;
 
-      // Done: transcript sits in the field.
+      // Done: cleaned text sits in the field.
       wrap.classList.remove('busy');
       setFeedback('Done');
       if (!(await wait(900, gen))) return;
@@ -152,7 +151,7 @@ import Layout from '../layouts/Layout.astro';
     }
 
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      if (fieldText) fieldText.textContent = TEXT;
+      if (fieldText) fieldText.innerHTML = CLEANED;
     } else {
       loop();
     }
@@ -194,9 +193,13 @@ import Layout from '../layouts/Layout.astro';
     .key-row .wide { flex: 1.4; background: #c3ccd6; font-weight: 700; }
     .key-row .space { flex: 4.5; }
 
+    .field-text .fill { color: #b00020; text-decoration: line-through; }
+    .field-text .fix { color: #1a7f37; font-weight: 800; animation: fixpop 1s ease; }
+    @keyframes fixpop { 0% { background: rgba(26,127,55,.22); } 100% { background: transparent; } }
+
     .bubble-wrap { position: absolute; top: 50%; right: 8px; width: 56px; height: 56px; transform: translateY(-50%); display: flex; align-items: center; justify-content: center; }
     .bubble-ring { position: absolute; inset: 0; overflow: visible; }
-    .spinner { display: none; transform-origin: 50% 50%; }
+    .spinner { display: none; }
     .bubble-wrap.busy .progress { display: none; }
     .bubble-wrap.busy .spinner { display: block; }
     .bubble-wrap.busy .bubble-ring { animation: spin 1s linear infinite; }
@@ -209,16 +212,7 @@ import Layout from '../layouts/Layout.astro';
 
     .feedback { position: absolute; top: 50%; right: 66px; transform: translateY(-190%); max-width: 190px; padding: 7px 12px; border-radius: 16px; background: rgba(5,25,35,.93); color: #fff; font-size: 12.5px; line-height: 1.3; box-shadow: 0 4px 12px rgba(5,25,35,.28); }
 
-    .wave { position: absolute; left: 50%; bottom: 292px; transform: translateX(-50%); display: flex; align-items: flex-end; gap: 3px; height: 22px; }
-    .wave i { width: 4px; border-radius: 2px; background: var(--primary); animation: eq .8s ease-in-out infinite; }
-    .wave i:nth-child(1) { height: 30%; }
-    .wave i:nth-child(2) { height: 70%; animation-delay: .12s; }
-    .wave i:nth-child(3) { height: 100%; animation-delay: .24s; }
-    .wave i:nth-child(4) { height: 55%; animation-delay: .36s; }
-    .wave i:nth-child(5) { height: 80%; animation-delay: .48s; }
-    @keyframes eq { 0%, 100% { transform: scaleY(.5); } 50% { transform: scaleY(1); } }
-
     @media (max-width: 420px) { .phone { width: 280px; height: 580px; } }
-    @media (prefers-reduced-motion: reduce) { .bubble-wrap.live .bubble::after, .wave i, .bubble-wrap.busy .bubble-ring { animation: none; } }
+    @media (prefers-reduced-motion: reduce) { .bubble-wrap.live .bubble::after, .bubble-wrap.busy .bubble-ring { animation: none; } }
   </style>
 </Layout>
