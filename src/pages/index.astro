@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import BubbleDemo from '../components/BubbleDemo.astro';
 
 const base = import.meta.env.BASE_URL;
 
@@ -52,11 +53,14 @@ const comparisonRows = [
 
 <Layout title="Ascuta – Private voice typing for Android" description="Ascuta is private, practical voice typing for Android with local and optional cloud transcription.">
   <section class="hero">
-    <div class="container hero-inner">
-      <p class="eyebrow">Private voice typing for Android</p>
-      <h1>Turn your voice into <span class="hero-accent">words that stay yours.</span></h1>
-      <p class="lede">Ascuta puts dictation into the text field you are already using. Tap the bubble, speak naturally, and keep moving.</p>
-      <div class="actions"><a class="button button-primary" href="https://play.google.com/store/apps/details?id=eu.viglianisi.ascuta" target="_blank" rel="noopener">Download on Android</a><a class="button button-secondary" href={`${base}docs`}>Read the docs</a></div>
+    <div class="container hero-grid">
+      <div class="hero-copy">
+        <p class="eyebrow">Private voice typing for Android</p>
+        <h1>Turn your voice into <span class="hero-accent">words that stay yours.</span></h1>
+        <p class="lede">Ascuta puts dictation into the text field you are already using. Tap the bubble, speak naturally, and keep moving.</p>
+        <div class="actions"><a class="button button-primary" href="https://play.google.com/store/apps/details?id=eu.viglianisi.ascuta" target="_blank" rel="noopener">Download on Android</a><a class="button button-secondary" href={`${base}docs`}>Read the docs</a></div>
+      </div>
+      <BubbleDemo />
     </div>
   </section>
 
