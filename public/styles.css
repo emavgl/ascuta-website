@@ -18,6 +18,8 @@
   --dark: var(--ink-black);
 }
 
+[hidden] { display: none !important; }
+
 .site-nav { border-bottom: 1px solid var(--line); background: #fff; }
 .container { width: 100%; max-width: 1152px; margin: 0 auto; padding-left: 24px; padding-right: 24px; }
 .narrow { max-width: 800px; }
