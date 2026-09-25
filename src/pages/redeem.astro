@@ -17,7 +17,7 @@ import Layout from '../layouts/Layout.astro';
         <div class="redeem-code"><code id="code-value"></code><button class="button button-secondary" id="copy-btn" type="button">Copy</button></div>
         <p class="redeem-note" id="already" hidden>You already claimed a code from this connection, so this is your original one.</p>
         <p>To redeem it, open the Google Play Store app, open the menu, choose <strong>Redeem code</strong>, and paste the code. Then open Ascuta — Lifetime Pro will be active.</p>
-        <a class="button button-primary" href="https://play.google.com/redeem" target="_blank" rel="noopener">Open Google Play</a>
+        <a class="button button-primary redeem-play" href="https://play.google.com/redeem" target="_blank" rel="noopener">Open Google Play</a>
       </div>
       <p class="redeem-error" id="error" hidden></p>
     </div>
@@ -91,7 +91,7 @@ import Layout from '../layouts/Layout.astro';
     .redeem-code { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: center; margin: 22px 0 26px; }
     .redeem-code code { padding: 14px 20px; border: 1px dashed var(--primary); border-radius: 10px; background: var(--primary-soft); color: var(--primary-on-soft); font-size: 20px; font-weight: 700; letter-spacing: .06em; }
     .redeem-note { font-size: 14px; }
-    .redeem-result .button { margin-top: 6px; }
+    .redeem-play { margin-top: 22px; }
     .redeem-error { margin: 20px 0 0; color: #B00020; font-weight: 600; }
     @media (max-width: 520px) { .redeem-card { padding: 34px 22px; } }
   </style>
