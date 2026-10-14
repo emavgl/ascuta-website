@@ -12,6 +12,7 @@ import Layout from '../layouts/Layout.astro';
     <div class="support-card redeem-card">
       <p id="intro">Tap the button to get your code. You redeem it through Google Play, so Lifetime Pro is tied to your Google account — no Ascuta account needed.</p>
       <button class="button button-primary" id="claim-btn" type="button">Get my promo code</button>
+      <p class="redeem-notice" id="notice" hidden>We appreciate your interest, at the moment there are no active campaigns.</p>
       <div class="redeem-result" id="result" hidden>
         <p>Your promo code</p>
         <div class="redeem-code"><code id="code-value"></code><button class="button button-secondary" id="copy-btn" type="button">Copy</button></div>
@@ -35,6 +36,7 @@ import Layout from '../layouts/Layout.astro';
     const already = document.getElementById('already');
     const error = document.getElementById('error');
     const intro = document.getElementById('intro');
+    const notice = document.getElementById('notice');
 
     function showError(message: string) {
       if (!error) return;
@@ -69,6 +71,18 @@ import Layout from '../layouts/Layout.astro';
           if (button) {
             button.disabled = false;
             button.textContent = 'Try again';
+          }
+          return;
+        }
+        // Outside the LAN there is no generic giveaway: without an active
+        // campaign there is nothing to hand out.
+        if (data.noActiveCampaign) {
+          if (notice) notice.hidden = false;
+          if (intro) intro.hidden = true;
+          if (claimBtn) claimBtn.hidden = true;
+          if (button) {
+            button.disabled = false;
+            button.textContent = label;
           }
           return;
         }
