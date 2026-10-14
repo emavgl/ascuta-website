@@ -56,7 +56,7 @@ import Layout from '../layouts/Layout.astro';
         const data = await response.json().catch(() => ({}));
         if (!response.ok) {
           showError(
-            response.status === 400
+            response.status === 400 || response.status === 403
               ? 'This campaign link is not valid.'
               : response.status === 410
                 ? 'Promotional campaign reached its capacity.'
