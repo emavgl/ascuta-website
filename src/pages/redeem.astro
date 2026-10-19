@@ -12,7 +12,7 @@ import Layout from '../layouts/Layout.astro';
     <div class="support-card redeem-card">
       <p id="intro">Tap the button to get your code. You redeem it through Google Play, so Lifetime Pro is tied to your Google account — no Ascuta account needed.</p>
       <button class="button button-primary" id="claim-btn" type="button">Get my promo code</button>
-      <p class="redeem-notice" id="notice" hidden>We appreciate your interest, at the moment there are no active campaigns.</p>
+      <p class="redeem-notice" id="notice" hidden></p>
       <div class="redeem-result" id="result" hidden>
         <p>Your promo code</p>
         <div class="redeem-code"><code id="code-value"></code><button class="button button-secondary" id="copy-btn" type="button">Copy</button></div>
@@ -42,6 +42,46 @@ import Layout from '../layouts/Layout.astro';
       if (!error) return;
       error.textContent = message;
       error.hidden = false;
+    }
+
+    const NOTICES: Record<string, string> = {
+      no_active_campaign: 'We appreciate your interest, at the moment there are no active campaigns.',
+      campaign_full: 'Promotional campaign reached its capacity.',
+      codes_exhausted: 'All promo codes have been claimed. Thanks for the interest!',
+    };
+
+    // Tell the visitor up front when there is nothing left to claim, instead of
+    // making them click a button that can only fail.
+    function showNotice(message: string) {
+      if (notice) {
+        notice.textContent = message;
+        notice.hidden = false;
+      }
+      if (intro) intro.hidden = true;
+      if (claimBtn) claimBtn.hidden = true;
+    }
+
+    async function checkAvailability() {
+      try {
+        const response = await fetch(
+          campaign ? `${API}?c=${encodeURIComponent(campaign)}` : API,
+          { method: 'GET' },
+        );
+        if (!response.ok) {
+          if (response.status === 400 || response.status === 403) {
+            showError('This campaign link is not valid.');
+            if (claimBtn) claimBtn.hidden = true;
+          }
+          return;
+        }
+        const data = await response.json().catch(() => ({}));
+        if (data.available === false && data.reason) {
+          showNotice(NOTICES[data.reason] ?? NOTICES.no_active_campaign);
+        }
+      } catch {
+        // The check is an optimisation: if it fails, keep the button and let
+        // the claim request report the real error.
+      }
     }
 
     async function claim(button: HTMLButtonElement | null, label: string) {
@@ -77,9 +117,7 @@ import Layout from '../layouts/Layout.astro';
         // Outside the LAN there is no generic giveaway: without an active
         // campaign there is nothing to hand out.
         if (data.noActiveCampaign) {
-          if (notice) notice.hidden = false;
-          if (intro) intro.hidden = true;
-          if (claimBtn) claimBtn.hidden = true;
+          showNotice(NOTICES.no_active_campaign);
           if (button) {
             button.disabled = false;
             button.textContent = label;
@@ -108,6 +146,7 @@ import Layout from '../layouts/Layout.astro';
 
     claimBtn?.addEventListener('click', () => claim(claimBtn, 'Get my promo code'));
     moreBtn?.addEventListener('click', () => claim(moreBtn, 'Get another code'));
+    void checkAvailability();
 
     copyBtn?.addEventListener('click', async () => {
       try {
