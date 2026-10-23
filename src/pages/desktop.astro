@@ -1,0 +1,137 @@
+---
+import Layout from '../layouts/Layout.astro';
+const base = import.meta.env.BASE_URL;
+
+const installCommand = 'curl -fsSL https://github.com/emavgl/ascuta-website/releases/download/desktop-latest/install.sh | bash';
+
+const features = [
+  ['Hold to talk', 'Hold Ctrl+Win (or your own shortcut), speak, release. Ascuta types the transcript into the field you were already using.'],
+  ['Local transcription', 'Speech is transcribed on your computer with on-device models. Audio never goes to a cloud service, and no account is needed.'],
+  ['Phone bridge', 'Pair the Ascuta Android app over Wi-Fi with a QR code and send a transcript from your phone to your computer.'],
+  ['Lives in the tray', 'A small tray icon, an optional HUD and an autostart toggle. Close the settings window and dictation keeps working.'],
+];
+---
+<Layout title="Ascuta Desktop – Private voice typing for your computer" description="Install Ascuta Desktop on Linux: hold a shortcut, speak, and your words are typed into any app. Speech is transcribed locally on your computer.">
+  <section class="page-header"><div class="container">
+    <p class="eyebrow">Ascuta Desktop</p>
+    <h1>Your voice, on your computer.</h1>
+    <p class="lede">The same private dictation you know from the phone, now on your desktop. Hold a shortcut, speak, release — Ascuta types the text into whatever app has focus. The audio is transcribed locally; nothing is sent to a cloud.</p>
+    <div class="actions">
+      <a class="button button-primary" href="#install">Install for Linux</a>
+      <a class="button button-secondary" href={`${base}docs`}>Phone docs</a>
+    </div>
+  </div></section>
+
+  <section class="section" id="install"><div class="container narrow">
+    <div class="section-heading">
+      <p class="eyebrow">Install</p>
+      <h2>One line, no source code.</h2>
+      <p>Linux x86_64. The installer downloads the prebuilt binary, verifies its checksum and sets everything up for your user.</p>
+    </div>
+
+    <div class="terminal">
+      <div class="terminal-bar"><span></span><span></span><span></span><button class="terminal-copy" type="button" data-copy aria-label="Copy install command">Copy</button></div>
+      <pre><code data-install-command>{installCommand}</code></pre>
+    </div>
+
+    <p class="small-note">Paste it into a terminal. The installer may ask for your password only to install missing system libraries; the app itself goes into <code>~/.local</code>.</p>
+
+    <div class="prose desktop-prose">
+      <h2>What the installer does</h2>
+      <ol>
+        <li>Downloads <code>ascuta-desktop-linux-x86_64.tar.gz</code> and checks its SHA-256.</li>
+        <li>Installs any missing runtime libraries (ALSA, bzip2, clipboard tools) with your package manager.</li>
+        <li>Installs the binary and its shared libraries into <code>~/.local/lib/ascuta</code>.</li>
+        <li>Adds <strong>Ascuta Desktop</strong> to your application menu and an <code>ascuta-desktop</code> command to <code>~/.local/bin</code>.</li>
+        <li>Runs a self-test.</li>
+      </ol>
+      <p>For the global hotkey, Ascuta needs to read the keyboard. The installer offers to add your user to the <code>input</code> group — log out and back in if you accept, or enable it later from Ascuta's settings.</p>
+
+      <h2>After installing</h2>
+      <ol>
+        <li>Start <strong>Ascuta Desktop</strong> from the application menu, or run <code>ascuta-desktop</code>.</li>
+        <li>Wait for the speech model to finish downloading (~600 MB, once).</li>
+        <li>Put the cursor in any text field, hold <strong>Ctrl+Win</strong>, speak, and release.</li>
+      </ol>
+      <p>The first run may also be started in a terminal with <code>ascuta-desktop --gui</code>. Add <code>--pair</code> to print a QR code for the phone bridge and listen without opening a window.</p>
+
+      <h2 id="manual">Prefer to download it yourself?</h2>
+      <pre class="code-block"><code>curl -fLO https://github.com/emavgl/ascuta-website/releases/download/desktop-latest/ascuta-desktop-linux-x86_64.tar.gz
+curl -fLO https://github.com/emavgl/ascuta-website/releases/download/desktop-latest/ascuta-desktop-linux-x86_64.tar.gz.sha256
+sha256sum -c ascuta-desktop-linux-x86_64.tar.gz.sha256
+tar -xzf ascuta-desktop-linux-x86_64.tar.gz
+cd ascuta-desktop-linux-x86_64
+./install.sh</code></pre>
+
+      <h2>Wayland and X11</h2>
+      <p>Typing works on both X11 and Wayland. On Wayland, Ascuta uses the XDG RemoteDesktop portal to send keystrokes; if the portal is unavailable, the transcript is left in the clipboard so you can paste it yourself. The installer can add <code>wl-clipboard</code>, <code>xclip</code> and the matching portal package for your desktop.</p>
+
+      <h2>Uninstall</h2>
+      <pre class="code-block"><code>~/.local/lib/ascuta/install.sh --uninstall          # keep settings and models
+~/.local/lib/ascuta/install.sh --uninstall --purge  # remove everything</code></pre>
+      <p>Settings live in <code>~/.config/ascuta/settings.json</code>; downloaded models stay in <code>~/.local/share/ascuta/models</code> unless you purge them.</p>
+
+      <h2>Troubleshooting</h2>
+      <div class="support-grid">
+        <article class="support-card"><h3>The hotkey does nothing</h3><p>Your user may not be able to read the keyboard. Add it to the <code>input</code> group (<code>sudo usermod -aG input $USER</code>), then log out and back in.</p></article>
+        <article class="support-card"><h3>No tray icon</h3><p>GNOME needs the AppIndicator extension for tray icons. Dictation and <code>--pair</code> work without the tray.</p></article>
+        <article class="support-card"><h3>Text is not typed</h3><p>On restricted Wayland sessions there may be no key backend. The transcript is copied to the clipboard instead, so paste it manually.</p></article>
+        <article class="support-card"><h3>Port 8737 is busy</h3><p>Change <code>bridge_port</code> in <code>~/.config/ascuta/settings.json</code> and restart Ascuta. The pairing QR uses the new port too.</p></article>
+      </div>
+      <p class="support-note">The desktop package is Linux x86_64 only for now. macOS and Windows packages are built separately and will be published when ready.</p>
+    </div>
+  </div></section>
+
+  <section class="section section-soft"><div class="container">
+    <div class="section-heading">
+      <p class="eyebrow">Why a desktop app</p>
+      <h2>Dictate where you actually write.</h2>
+    </div>
+    <div class="feature-grid">
+      {features.map(([title, description]) => <article class="feature-card"><h3>{title}</h3><p>{description}</p></article>)}
+    </div>
+  </div></section>
+
+  <section class="cta"><div class="container cta-inner"><div>
+    <p class="eyebrow">Also on Android</p>
+    <h2>The phone does the same, on the go.</h2>
+    <p>Ascuta for Android transcribes on-device and works with the keyboard you already use.</p>
+  </div><a class="button button-secondary" href={base}>See Ascuta for Android</a></div></section>
+</Layout>
+
+<style>
+  .page-header .actions { justify-content: flex-start; }
+  .terminal { margin: 26px 0 14px; border: 1px solid #23303a; border-radius: 14px; overflow: hidden; background: #0b1720; box-shadow: 0 10px 30px rgba(5, 25, 35, .12); }
+  .terminal-bar { display: flex; align-items: center; gap: 7px; padding: 11px 14px; background: #13232e; }
+  .terminal-bar > span { width: 11px; height: 11px; border-radius: 50%; background: #39505f; }
+  .terminal-copy { margin-left: auto; padding: 4px 12px; border: 1px solid #3a5160; border-radius: 7px; color: #d7e6ef; background: transparent; font: inherit; font-size: 12px; font-weight: 600; cursor: pointer; }
+  .terminal-copy:hover { background: #1d3341; }
+  .terminal pre { margin: 0; padding: 20px; overflow-x: auto; }
+  .terminal code { color: #e6f2f9; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 14px; line-height: 1.6; white-space: pre; }
+  .desktop-prose { margin-top: 42px; }
+  .desktop-prose > h2:first-child { margin-top: 0; }
+  .desktop-prose code { padding: 2px 6px; border-radius: 5px; background: var(--soft); color: var(--primary-dark); font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: .92em; }
+  .code-block { margin: 0 0 16px; padding: 18px 20px; overflow-x: auto; border: 1px solid var(--line); border-radius: 12px; background: var(--soft); }
+  .code-block code { padding: 0; background: none; color: var(--ink); font-size: 13px; line-height: 1.7; white-space: pre; }
+  .feature-grid { grid-template-columns: repeat(2, 1fr); }
+  @media (max-width: 700px) {
+    .page-header .actions { justify-content: flex-start; }
+    .feature-grid { grid-template-columns: 1fr; }
+  }
+</style>
+
+<script>
+  const button = document.querySelector<HTMLButtonElement>('[data-copy]');
+  const command = document.querySelector<HTMLElement>('[data-install-command]');
+  if (button && command) {
+    button.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(command.textContent?.trim() ?? '');
+        button.textContent = 'Copied';
+        setTimeout(() => { button.textContent = 'Copy'; }, 1800);
+      } catch {
+        button.textContent = 'Select and copy';
+      }
+    });
+  }
+</script>
