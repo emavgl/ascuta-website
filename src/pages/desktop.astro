@@ -3,6 +3,8 @@ import Layout from '../layouts/Layout.astro';
 const base = import.meta.env.BASE_URL;
 
 const installCommand = 'curl -fsSL https://github.com/emavgl/ascuta-website/releases/download/desktop-latest/install.sh | bash';
+const installWindowsCommand = 'powershell -NoProfile -ExecutionPolicy Bypass -Command "irm https://github.com/emavgl/ascuta-website/releases/download/desktop-latest/install-windows.ps1 | iex"';
+const windowsZip = 'https://github.com/emavgl/ascuta-website/releases/download/desktop-latest/ascuta-desktop-windows-x86_64.zip';
 
 const features = [
   ['Hold to talk', 'Hold Ctrl+Win (or your own shortcut), speak, release. Ascuta types the transcript into the field you were already using.'],
@@ -11,14 +13,14 @@ const features = [
   ['Lives in the tray', 'A small tray icon, an optional HUD and an autostart toggle. Close the settings window and dictation keeps working.'],
 ];
 ---
-<Layout title="Ascuta Desktop – Private voice typing for your computer" description="Install Ascuta Desktop on Linux: hold a shortcut, speak, and your words are typed into any app. Speech is transcribed locally on your computer.">
+<Layout title="Ascuta Desktop – Private voice typing for your computer" description="Install Ascuta Desktop on Linux or Windows: hold a shortcut, speak, and your words are typed into any app. Speech is transcribed locally on your computer.">
   <section class="page-header"><div class="container">
     <p class="eyebrow">Ascuta Desktop</p>
     <h1>Your voice, on your computer.</h1>
     <p class="lede">The same private dictation you know from the phone, now on your desktop. Hold a shortcut, speak, release — Ascuta types the text into whatever app has focus. The audio is transcribed locally; nothing is sent to a cloud.</p>
     <div class="actions">
-      <a class="button button-primary" href="#install">Install for Linux</a>
-      <a class="button button-secondary" href={`${base}docs`}>Phone docs</a>
+      <a class="button button-primary" href="#install">Install Ascuta Desktop</a>
+      <a class="button button-secondary" href={windowsZip}>Download for Windows</a>
     </div>
   </div></section>
 
@@ -26,36 +28,44 @@ const features = [
     <div class="section-heading">
       <p class="eyebrow">Install</p>
       <h2>One line, no source code.</h2>
-      <p>Linux x86_64. The installer downloads the prebuilt binary, verifies its checksum and sets everything up for your user.</p>
+      <p>Linux x86_64 and Windows x64. The installer downloads the prebuilt binary, verifies its checksum and sets everything up for your user.</p>
     </div>
 
+    <h3 class="platform-title">Linux x86_64</h3>
     <div class="terminal">
-      <div class="terminal-bar"><span></span><span></span><span></span><button class="terminal-copy" type="button" data-copy aria-label="Copy install command">Copy</button></div>
+      <div class="terminal-bar"><span></span><span></span><span></span><button class="terminal-copy" type="button" data-copy aria-label="Copy Linux install command">Copy</button></div>
       <pre><code data-install-command>{installCommand}</code></pre>
     </div>
-
     <p class="small-note">Paste it into a terminal. The installer may ask for your password only to install missing system libraries; the app itself goes into <code>~/.local</code>.</p>
+
+    <h3 class="platform-title">Windows x64</h3>
+    <div class="terminal">
+      <div class="terminal-bar"><span></span><span></span><span></span><button class="terminal-copy" type="button" data-copy aria-label="Copy Windows install command">Copy</button></div>
+      <pre><code data-install-command>{installWindowsCommand}</code></pre>
+    </div>
+    <p class="small-note">Open <strong>Windows PowerShell</strong> and paste it. No administrator rights are needed: Ascuta installs in <code>%LOCALAPPDATA%\Ascuta</code> and adds a Start menu entry. The MSVC runtime is bundled. SmartScreen may warn because the executable is not signed — choose <em>More info</em> → <em>Run anyway</em>.</p>
 
     <div class="prose desktop-prose">
       <h2>What the installer does</h2>
       <ol>
-        <li>Downloads <code>ascuta-desktop-linux-x86_64.tar.gz</code> and checks its SHA-256.</li>
-        <li>Installs any missing runtime libraries (ALSA, bzip2, clipboard tools) with your package manager.</li>
-        <li>Installs the binary and its shared libraries into <code>~/.local/lib/ascuta</code>.</li>
-        <li>Adds <strong>Ascuta Desktop</strong> to your application menu and an <code>ascuta-desktop</code> command to <code>~/.local/bin</code>.</li>
+        <li>Downloads the package (<code>ascuta-desktop-linux-x86_64.tar.gz</code> or <code>ascuta-desktop-windows-x86_64.zip</code>) and checks its SHA-256.</li>
+        <li>On Linux, installs any missing runtime libraries (ALSA, bzip2, clipboard tools) with your package manager.</li>
+        <li>Installs the binary and its libraries into <code>~/.local/lib/ascuta</code> on Linux, <code>%LOCALAPPDATA%\Ascuta</code> on Windows.</li>
+        <li>Adds <strong>Ascuta Desktop</strong> to your application menu (Linux) or Start menu (Windows).</li>
         <li>Runs a self-test.</li>
       </ol>
-      <p>For the global hotkey, Ascuta needs to read the keyboard. The installer offers to add your user to the <code>input</code> group — log out and back in if you accept, or enable it later from Ascuta's settings.</p>
+      <p>On Linux, for the global hotkey Ascuta needs to read the keyboard. The installer offers to add your user to the <code>input</code> group — log out and back in if you accept, or enable it later from Ascuta's settings. On Windows no special permissions are required.</p>
 
       <h2>After installing</h2>
       <ol>
-        <li>Start <strong>Ascuta Desktop</strong> from the application menu, or run <code>ascuta-desktop</code>.</li>
+        <li>Start <strong>Ascuta Desktop</strong> from the application menu, the Start menu, or run <code>ascuta-desktop</code>/<code>ascuta-desktop.exe</code>.</li>
         <li>Wait for the speech model to finish downloading (~600 MB, once).</li>
         <li>Put the cursor in any text field, hold <strong>Ctrl+Win</strong>, speak, and release.</li>
       </ol>
-      <p>The first run may also be started in a terminal with <code>ascuta-desktop --gui</code>. Add <code>--pair</code> to print a QR code for the phone bridge and listen without opening a window.</p>
+      <p>The first run may also be started in a terminal with <code>--gui</code>. Add <code>--pair</code> to print a QR code for the phone bridge and listen without opening a window.</p>
 
       <h2 id="manual">Prefer to download it yourself?</h2>
+      <h3>Linux</h3>
       <pre class="code-block"><code>curl -fLO https://github.com/emavgl/ascuta-website/releases/download/desktop-latest/ascuta-desktop-linux-x86_64.tar.gz
 curl -fLO https://github.com/emavgl/ascuta-website/releases/download/desktop-latest/ascuta-desktop-linux-x86_64.tar.gz.sha256
 sha256sum -c ascuta-desktop-linux-x86_64.tar.gz.sha256
@@ -63,22 +73,32 @@ tar -xzf ascuta-desktop-linux-x86_64.tar.gz
 cd ascuta-desktop-*
 ./install.sh</code></pre>
 
-      <h2>Wayland and X11</h2>
+      <h3>Windows</h3>
+      <p>Download <a href={windowsZip}><code>ascuta-desktop-windows-x86_64.zip</code></a> and its <a href={`${windowsZip}.sha256`}><code>.sha256</code></a>, unzip it, then run <code>install.cmd</code> (or right-click <code>install.ps1</code> → <em>Run with PowerShell</em>).</p>
+
+      <h2>Wayland and X11 (Linux)</h2>
       <p>Typing works on both X11 and Wayland. On Wayland, Ascuta uses the XDG RemoteDesktop portal to send keystrokes; if the portal is unavailable, the transcript is left in the clipboard so you can paste it yourself. The installer can add <code>wl-clipboard</code>, <code>xclip</code> and the matching portal package for your desktop.</p>
 
       <h2>Uninstall</h2>
+      <h3>Linux</h3>
       <pre class="code-block"><code>~/.local/lib/ascuta/install.sh --uninstall          # keep settings and models
 ~/.local/lib/ascuta/install.sh --uninstall --purge  # remove everything</code></pre>
       <p>Settings live in <code>~/.config/ascuta/settings.json</code>; downloaded models stay in <code>~/.local/share/ascuta/models</code> unless you purge them.</p>
+      <h3>Windows</h3>
+      <pre class="code-block"><code>%LOCALAPPDATA%\Ascuta\install.cmd --uninstall          # keep settings and models
+%LOCALAPPDATA%\Ascuta\install.cmd --uninstall --purge  # remove everything</code></pre>
+      <p>Settings and models live in <code>%APPDATA%\ascuta</code> unless you purge them.</p>
 
       <h2>Troubleshooting</h2>
       <div class="support-grid">
-        <article class="support-card"><h3>The hotkey does nothing</h3><p>Your user may not be able to read the keyboard. Add it to the <code>input</code> group (<code>sudo usermod -aG input $USER</code>), then log out and back in.</p></article>
-        <article class="support-card"><h3>No tray icon</h3><p>GNOME needs the AppIndicator extension for tray icons. Dictation and <code>--pair</code> work without the tray.</p></article>
+        <article class="support-card"><h3>The hotkey does nothing</h3><p>On Linux your user may not be able to read the keyboard. Add it to the <code>input</code> group (<code>sudo usermod -aG input $USER</code>), then log out and back in.</p></article>
+        <article class="support-card"><h3>No tray icon</h3><p>On GNOME, install the AppIndicator extension. Dictation and <code>--pair</code> work without the tray.</p></article>
         <article class="support-card"><h3>Text is not typed</h3><p>On restricted Wayland sessions there may be no key backend. The transcript is copied to the clipboard instead, so paste it manually.</p></article>
-        <article class="support-card"><h3>Port 8737 is busy</h3><p>Change <code>bridge_port</code> in <code>~/.config/ascuta/settings.json</code> and restart Ascuta. The pairing QR uses the new port too.</p></article>
+        <article class="support-card"><h3>Port 8737 is busy</h3><p>Change <code>bridge_port</code> in <code>settings.json</code> and restart Ascuta. The pairing QR uses the new port too.</p></article>
+        <article class="support-card"><h3>Windows warns about the app</h3><p>SmartScreen shows a warning because the executable is not code-signed. Verify the SHA-256 of the zip, then choose <em>More info</em> → <em>Run anyway</em>.</p></article>
+        <article class="support-card"><h3>Windows cannot find a DLL</h3><p>Keep the whole extracted folder together, or reinstall with <code>install.cmd</code>: it copies the executable, the sherpa/onnxruntime libraries and the MSVC runtime into <code>%LOCALAPPDATA%\Ascuta</code>.</p></article>
       </div>
-      <p class="support-note">The desktop package is Linux x86_64 only for now. macOS and Windows packages are built separately and will be published when ready.</p>
+      <p class="support-note">Linux x86_64 and Windows x64 packages are available now. macOS is built separately and will be published when ready.</p>
     </div>
   </div></section>
 
@@ -109,6 +129,9 @@ cd ascuta-desktop-*
   .terminal pre { margin: 0; padding: 20px; overflow-x: auto; }
   .terminal code { color: #e6f2f9; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 14px; line-height: 1.6; white-space: pre; }
   .desktop-prose { margin-top: 42px; }
+  .platform-title { margin: 34px 0 0; font-size: 1.05rem; color: var(--primary-dark); }
+  .platform-title + .terminal { margin-top: 12px; }
+  .desktop-prose h3 { margin-top: 28px; }
   .desktop-prose > h2:first-child { margin-top: 0; }
   .desktop-prose code { padding: 2px 6px; border-radius: 5px; background: var(--soft); color: var(--primary-dark); font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: .92em; }
   .code-block { margin: 0 0 16px; padding: 18px 20px; overflow-x: auto; border: 1px solid var(--line); border-radius: 12px; background: var(--soft); }
@@ -121,9 +144,9 @@ cd ascuta-desktop-*
 </style>
 
 <script>
-  const button = document.querySelector<HTMLButtonElement>('[data-copy]');
-  const command = document.querySelector<HTMLElement>('[data-install-command]');
-  if (button && command) {
+  document.querySelectorAll<HTMLButtonElement>('[data-copy]').forEach((button) => {
+    const command = button.closest('.terminal')?.querySelector<HTMLElement>('[data-install-command]');
+    if (!command) return;
     button.addEventListener('click', async () => {
       try {
         await navigator.clipboard.writeText(command.textContent?.trim() ?? '');
@@ -133,5 +156,5 @@ cd ascuta-desktop-*
         button.textContent = 'Select and copy';
       }
     });
-  }
+  });
 </script>
