@@ -20,6 +20,10 @@ const planRows = [
   <section class="page-header"><div class="container"><p class="eyebrow">Pricing</p><h1>Free to use. Pro, once.</h1><p class="lede">Everything you need to dictate stays free forever. One optional purchase unlocks the rest — a single payment, no subscription, no expiry.</p></div></section>
 
   <section class="section"><div class="container narrow">
+    <div class="free-banner" data-free-banner hidden>
+      <strong>Pro is free for everyone for a limited time.</strong>
+      Every Pro feature is unlocked — nothing to buy right now.
+    </div>
     <div class="price-grid">
       <article class="price-card">
         <p class="price-badge">Always free</p>
@@ -72,6 +76,8 @@ const planRows = [
 
 <style>
   .compare-wrap { margin-bottom: 28px; }
+  .free-banner { margin-bottom: 22px; padding: 14px 18px; border: 1px solid var(--primary); border-radius: 12px; background: var(--primary-soft); color: var(--primary-on-soft); font-size: 15px; line-height: 1.55; }
+  .free-banner strong { display: block; margin-bottom: 2px; font-weight: 700; }
   /* Shared row tracks keep both cards the same height with prices, list
      headings and lists aligned on the same horizontal lines. */
   .price-grid { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: auto auto auto auto auto auto 1fr auto; column-gap: 22px; row-gap: 0; margin-bottom: 28px; }
@@ -190,5 +196,18 @@ const planRows = [
     });
   }
 
+  async function applyFreeBanner() {
+    const banner = document.querySelector<HTMLElement>('[data-free-banner]');
+    if (!banner) return;
+    try {
+      const response = await fetch(`${import.meta.env.BASE_URL}config.json`, { cache: 'no-cache' });
+      if (!response.ok) return;
+      const config = await response.json();
+      if (config && config.enable_paywall_pro === false) banner.hidden = false;
+    } catch {
+    }
+  }
+
   applyPrices();
+  applyFreeBanner();
 </script>
