@@ -4,6 +4,7 @@ import { defineConfig } from 'astro/config';
 // serves Pages at the domain root (/), not at /<repo>/. Assets must therefore
 // be rooted at /, otherwise they 404 and the site renders unstyled.
 export default defineConfig({
+  site: 'https://ascuta.viglianisi.eu',
   output: 'static',
   base: '/',
 });

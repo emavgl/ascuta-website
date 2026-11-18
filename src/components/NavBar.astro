@@ -1,6 +1,16 @@
 ---
 interface Props { base: string }
 const { base } = Astro.props;
+
+const pathname = Astro.url.pathname.replace(/\/+$/, '') || '/';
+const links = [
+  { href: `${base}desktop`, label: 'Desktop' },
+  { href: `${base}docs`, label: 'Docs' },
+];
+const isCurrent = (href: string) => {
+  const target = href.replace(/\/+$/, '') || '/';
+  return pathname === target || pathname.startsWith(`${target}/`);
+};
 ---
 <nav class="site-nav">
   <div class="container nav-inner">
@@ -9,7 +19,7 @@ const { base } = Astro.props;
       <span>Ascuta</span>
     </a>
     <div class="nav-links">
-      <a href={`${base}docs`}>Docs</a>
+      {links.map((link) => <a href={link.href} aria-current={isCurrent(link.href) ? 'page' : undefined}>{link.label}</a>)}
     </div>
   </div>
 </nav>

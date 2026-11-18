@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import BubbleDemo from '../components/BubbleDemo.astro';
+import DesktopDemo from '../components/DesktopDemo.astro';
 
 const base = import.meta.env.BASE_URL;
 
@@ -39,7 +40,7 @@ const faqs = [
 
 ---
 
-<Layout title="Ascuta – Private voice typing for Android" description="Ascuta is private, practical voice typing for Android with local and optional cloud transcription.">
+<Layout title="Ascuta – Private voice typing for Android and desktop" description="Ascuta is private, practical voice typing for Android and desktop, with on-device transcription and optional cloud models.">
   <section class="hero">
     <div class="container hero-grid">
       <div class="hero-copy">
@@ -47,6 +48,7 @@ const faqs = [
         <h1>Turn your voice into <span class="hero-accent">words that stay yours.</span></h1>
         <p class="lede">Ascuta runs local AI models on your phone for private dictation with zero friction. Keep your keyboard, tap the bubble, speak naturally — and your words land in the field you were already typing in.</p>
         <div class="actions"><a class="button button-primary" href="https://play.google.com/store/apps/details?id=eu.viglianisi.ascuta" target="_blank" rel="noopener">Download on Android</a><a class="button button-secondary" href={`${base}docs`}>Read the docs</a></div>
+        <a class="hero-note" href={`${base}desktop`}>Ascuta Desktop for Linux, Windows and macOS <span aria-hidden="true">→</span></a>
       </div>
       <BubbleDemo />
     </div>
@@ -55,12 +57,47 @@ const faqs = [
   <section id="features" class="section"><div class="container"><div class="section-heading"><p class="eyebrow">Built around the useful part</p><h2>Say less to your phone. Tap less, too.</h2><p>Ascuta is a small, direct tool for getting speech into the app where you need it — and your words can stay on your phone while it works.</p></div><div class="feature-grid">{features.map(([icon, title, description]) => <article class="feature-card"><div class="feature-icon" aria-hidden="true"><Fragment set:html={icons[icon]} /></div><h3>{title}</h3><p>{description}</p></article>)}</div></div></section>
 
 
+  <section class="section desktop-promo" id="desktop"><div class="container desktop-promo-grid">
+    <div class="desktop-promo-copy">
+      <p class="eyebrow">Also on your computer</p>
+      <h2>Dictate where you actually write.</h2>
+      <p class="promo-lede">Ascuta Desktop brings the same private dictation to Linux, Windows and macOS. Hold a shortcut, speak, release — the words appear in the app you were already using. Pair your phone and use it as the microphone.</p>
+      <ul class="promo-list">
+        <li>Transcribed locally on your CPU, with no account</li>
+        <li>Works in any text field, in any app</li>
+        <li>Phone bridge over your local Wi-Fi</li>
+      </ul>
+      <div class="actions"><a class="button button-primary" href={`${base}desktop`}>Get Ascuta Desktop</a><a class="button button-secondary" href={`${base}desktop#download`}>See install options</a></div>
+    </div>
+    <DesktopDemo compact />
+  </div></section>
+
   <section class="section"><div class="container"><div class="section-heading"><p class="eyebrow">Questions, answered</p><h2>Start simple.</h2><p>The important details before you grant permissions or download a model.</p></div><div class="support-grid">{faqs.map(([question, answer, link]) => <details class="support-card"><summary><h2>{question}</h2><span>+</span></summary><p>{answer}{link && <> <a href={`${base}${link[0]}`}>{link[1]} →</a></>}</p></details>)}</div></div></section>
 
   <section class="cta"><div class="container cta-inner"><div><p class="eyebrow">Need help?</p><h2>Setup should take minutes.</h2><p>Use the docs for permissions, models, and common insertion problems.</p></div><a class="button button-secondary" href={`${base}docs`}>Open docs</a></div></section>
 </Layout>
 
 <style>
+  .hero-note { display: inline-flex; align-items: center; gap: 7px; margin-top: 22px; color: var(--primary-dark); font-size: 14px; font-weight: 600; text-decoration: none; }
+  .hero-note span { transition: transform .15s ease; }
+  .hero-note:hover span { transform: translateX(3px); }
+
+  .desktop-promo { background: linear-gradient(180deg, #fff, var(--soft)); border-top: 1px solid var(--line); }
+  .desktop-promo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; }
+  .desktop-promo-copy h2 { margin-bottom: 16px; font-size: clamp(30px, 4.6vw, 44px); line-height: 1.1; letter-spacing: -.05em; }
+  .promo-lede { color: var(--muted); font-size: 17px; line-height: 1.7; }
+  .promo-list { margin: 20px 0 0; padding: 0; list-style: none; color: var(--ink); font-size: 15px; line-height: 1.6; }
+  .promo-list li { position: relative; margin: 9px 0; padding-left: 26px; }
+  .promo-list li::before { content: ''; position: absolute; top: .42em; left: 2px; width: 13px; height: 7px; border-left: 2px solid var(--primary); border-bottom: 2px solid var(--primary); transform: rotate(-45deg); }
+  .desktop-promo-copy .actions { justify-content: flex-start; margin-top: 26px; }
+
+  @media (max-width: 900px) {
+    .desktop-promo-grid { grid-template-columns: 1fr; gap: 28px; }
+    .desktop-promo-copy { text-align: center; }
+    .desktop-promo-copy .actions { justify-content: center; }
+    .promo-list { display: inline-block; text-align: left; }
+  }
+
   .support-card summary { list-style: none; display: flex; align-items: center; justify-content: space-between; gap: 15px; cursor: pointer; }
   .support-card summary::-webkit-details-marker { display: none; }
   .support-card summary h2 { margin: 0; font-size: 18px; }

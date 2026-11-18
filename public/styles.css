@@ -30,6 +30,7 @@
 .nav-links { display: flex; align-items: center; gap: 28px; font-size: 14px; font-weight: 600; }
 .nav-links a { color: var(--muted); text-decoration: none; }
 .nav-links a:hover { color: var(--primary); }
+.nav-links a[aria-current="page"] { color: var(--primary-dark); }
 
 .hero { position: relative; overflow: hidden; background: linear-gradient(135deg, var(--primary-soft), #fff 53%, var(--primary-soft)); }
 .hero-inner { position: relative; padding-top: 100px; padding-bottom: 108px; text-align: center; }

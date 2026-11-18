@@ -15,6 +15,14 @@ npm run dev
 
 The generated site is written to `dist/`.
 
+## Desktop
+
+`/desktop` is the product page for Ascuta Desktop. Download and install
+commands point at the canonical
+[`emavgl/ascuta-desktop`](https://github.com/emavgl/ascuta-desktop/releases)
+releases, not at mirror assets on this repository. Keep it that way: the
+`desktop-latest` release here is a stale historical mirror.
+
 ## Pricing
 
 Lifetime Pro prices are read from Google Play and stored in `public/prices.json`.
