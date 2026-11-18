@@ -21,7 +21,7 @@ const planRows = [
 
   <section class="section"><div class="container narrow">
     <div class="free-banner" data-free-banner hidden>
-      <strong>Pro is free for everyone for a limited time.</strong>
+      <strong>Pro is free for everyone right now.</strong>
       Every Pro feature is unlocked — nothing to buy right now.
     </div>
     <div class="price-grid">
@@ -45,7 +45,7 @@ const planRows = [
         <h2>Lifetime Pro</h2>
         <p class="price-sub">For power dictators and professionals.</p>
         <p class="price-amount" data-price>$5.49</p>
-        <p class="price-local">One-time payment, <span data-price-note>shown in USD</span></p>
+        <p class="price-local"><span data-price-prefix>One-time payment, </span><span data-price-note>shown in USD</span></p>
         <p class="price-list-lead">Everything in Free, plus:</p>
         <ul class="price-list">
           <li><span aria-hidden="true">✓</span> Whisper Small, the most accurate Whisper</li>
@@ -54,7 +54,7 @@ const planRows = [
           <li><span aria-hidden="true">✓</span> Bring-your-own-key cloud models</li>
           <li><span aria-hidden="true">✓</span> AI post-processing with Gemma</li>
         </ul>
-        <p class="small-note">Buy once inside the app — the exact price is shown before you confirm.</p>
+        <p class="small-note" data-pro-note>Buy once inside the app — the exact price is shown before you confirm.</p>
       </article>
     </div>
 
@@ -161,8 +161,43 @@ const planRows = [
     return countryFromLocale();
   }
 
+  let freePeriod: Promise<boolean> | null = null;
+
+  function isFreePeriod() {
+    if (!freePeriod) {
+      freePeriod = (async () => {
+        try {
+          const response = await fetch(`${import.meta.env.BASE_URL}config.json`, { cache: 'no-cache' });
+          if (!response.ok) return false;
+          const config = (await response.json()) as { enable_paywall_pro?: boolean };
+          return config.enable_paywall_pro === false;
+        } catch {
+          return false;
+        }
+      })();
+    }
+    return freePeriod;
+  }
+
   async function applyPrices() {
     if (!document.querySelector('[data-price]')) return;
+
+    // While sales are paused the Pro card should not advertise a price.
+    if (await isFreePeriod()) {
+      document.querySelectorAll('[data-price]').forEach((el) => {
+        el.textContent = 'Free';
+      });
+      document.querySelectorAll('[data-price-prefix]').forEach((el) => {
+        el.textContent = '';
+      });
+      document.querySelectorAll('[data-price-note]').forEach((el) => {
+        el.textContent = 'for now';
+      });
+      document.querySelectorAll('[data-pro-note]').forEach((el) => {
+        el.textContent = 'No purchase needed right now.';
+      });
+      return;
+    }
 
     let prices: Prices;
     try {
@@ -199,13 +234,7 @@ const planRows = [
   async function applyFreeBanner() {
     const banner = document.querySelector<HTMLElement>('[data-free-banner]');
     if (!banner) return;
-    try {
-      const response = await fetch(`${import.meta.env.BASE_URL}config.json`, { cache: 'no-cache' });
-      if (!response.ok) return;
-      const config = await response.json();
-      if (config && config.enable_paywall_pro === false) banner.hidden = false;
-    } catch {
-    }
+    if (await isFreePeriod()) banner.hidden = false;
   }
 
   applyPrices();
