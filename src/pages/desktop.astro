@@ -4,52 +4,17 @@ import DesktopDemo from '../components/DesktopDemo.astro';
 
 const base = import.meta.env.BASE_URL;
 
-// Canonical packages live in the ascuta-desktop repository. Linux and Windows
-// expose stable asset names, so `releases/latest/download` always resolves.
-// macOS DMGs carry the version in their file name, so they are linked through
-// the release page instead of a URL that would break on the next release.
+// Linux and Windows expose stable asset names, so `releases/latest/download`
+// always resolves. macOS DMGs carry the version in the file name, so they are
+// linked through the release page instead.
 const downloads = 'https://github.com/emavgl/ascuta-desktop/releases/latest/download';
 const releases = 'https://github.com/emavgl/ascuta-desktop/releases/latest';
+const readme = 'https://github.com/emavgl/ascuta-desktop#troubleshooting';
 
 const linuxInstall = `curl -fsSL ${downloads}/install.sh | bash`;
 const linuxTar = `${downloads}/ascuta-desktop-linux-x86_64.tar.gz`;
 const windowsSetup = `${downloads}/ascuta-desktop-windows-x86_64-setup.exe`;
 const windowsZip = `${downloads}/ascuta-desktop-windows-x86_64.zip`;
-const windowsPowerShell = `irm ${downloads}/install-windows.ps1 | iex`;
-
-const steps = [
-  ['Open Ascuta', 'Start it from the tray or menu bar. The settings window opens on first run.'],
-  ['Download a model', 'Parakeet v2 for English (~640 MB), Parakeet v3 for 25 European languages (~670 MB), or Whisper for other languages. Each download is checked against a pinned SHA-256.'],
-  ['Choose a hotkey', 'Set the shortcut, language and input mode, then close the window. Dictation keeps running in the background.'],
-];
-
-const features = [
-  ['Push-to-talk in any app', 'Hold Ctrl+Win (Option+Space on macOS), speak, release. The transcript is typed into the focused field.'],
-  ['Transcription is local', 'Parakeet and Whisper models run on your CPU. Audio is captured, decoded and discarded; it is not uploaded.'],
-  ['Empty recordings are discarded', 'Voice activity detection trims silence before decoding and discards recordings with no speech, so it does not paste an empty transcript.'],
-  ['Use your phone as the microphone', 'Pair the Android app over Wi-Fi with a QR code. Each finished transcript is typed on the computer; the audio stays on the phone.'],
-  ['Runs in the background', 'A tray icon (menu bar on macOS), an optional on-screen HUD and launch at login. On Wayland, typing uses the desktop portal and falls back to the clipboard when it cannot type into an app.'],
-  ['Optional punctuation cleanup', 'An on-device Gemma model can fix punctuation and obvious mis-hearings. It is off by default, needs Python and does not send text anywhere.'],
-];
-
-const faqs = [
-  ['The hotkey does nothing', 'On Linux, Ascuta reads keyboards through /dev/input: add your user to the input group (sudo usermod -aG input $USER) and log out and back in. On macOS, grant Input Monitoring in System Settings → Privacy &amp; Security.'],
-  ['Text is not typed into the app', 'A restricted Wayland session may have no usable key backend. Ascuta leaves the transcript in the clipboard instead, so paste it with Ctrl+V.'],
-  ['There is no tray icon on GNOME', 'GNOME needs the AppIndicator extension for tray icons. Dictation and the --pair mode work without it.'],
-  ['Windows warns about the app', 'SmartScreen shows a warning because the executable is not code-signed. Check the SHA-256 published next to the download, then choose More info → Run anyway.'],
-  ['macOS does not hear me', 'Grant Microphone, Accessibility (to paste) and Input Monitoring (to read the hotkey) in System Settings → Privacy &amp; Security. The app is ad-hoc signed, so the first launch needs right-click → Open.'],
-  ['The model download fails', 'Check free disk space and the connection, then retry from the model list. Every download is verified before it is used.'],
-  ['Port 8737 is already in use', 'The phone bridge uses TCP 8737. Change bridge_port in settings.json and restart Ascuta; the pairing QR picks up the new port.'],
-  ['How do I uninstall it?', 'Linux: ~/.local/lib/ascuta/install.sh --uninstall (add --purge to remove models and settings). Windows: Settings → Apps → Ascuta Desktop, or install.cmd --uninstall in %LOCALAPPDATA%\\Ascuta. macOS: drag Ascuta from Applications to the bin.'],
-];
-
-const cli = [
-  ['--pair', 'Print the phone-bridge QR code and listen without opening a window.'],
-  ['--check', 'Run the headless self-test: no display, audio device or network needed.'],
-  ['--transcribe FILE', 'Transcribe a WAV file with the configured model.'],
-  ['--debug-mic', 'Record four seconds from the default input and print the levels.'],
-  ['--gui', 'Open the settings window (the default on first run).'],
-];
 ---
 
 <Layout
@@ -61,7 +26,7 @@ const cli = [
       <div class="desktop-hero-copy">
         <p class="eyebrow">Ascuta Desktop</p>
         <h1>Dictate into any app on your computer.</h1>
-        <p class="lede">Hold Ctrl+Win (Option+Space on macOS), speak, release. The transcript is typed into the field you were using. Speech is transcribed on your computer, so no audio is uploaded.</p>
+        <p class="lede">Hold Ctrl+Win (Option+Space on macOS), speak, release. The transcript is typed where you were typing. Speech is transcribed on your computer; audio is not uploaded.</p>
         <div class="actions">
           <a class="button button-primary" href={windowsSetup}>Download for Windows</a>
           <a class="button button-secondary" href="#linux">Install on Linux</a>
@@ -70,22 +35,13 @@ const cli = [
       </div>
       <DesktopDemo />
     </div>
-
-    <nav class="page-index" aria-label="On this page">
-      <a href="#download">Install</a>
-      <a href="#features">What it does</a>
-      <a href="#first-run">First run</a>
-      <a href="#bridge">Phone bridge</a>
-      <a href="#privacy">Privacy</a>
-      <a href="#troubleshooting">Troubleshooting</a>
-    </nav>
   </div></section>
 
   <section class="section" id="download"><div class="container">
     <div class="section-heading">
       <p class="eyebrow">Install</p>
-      <h2>Pick your platform.</h2>
-      <p>Windows 10/11, Linux x86_64 and macOS 12+. The Windows installer runs per user and does not need administrator rights.</p>
+      <h2>Choose your system.</h2>
+      <p>Windows 10/11, Linux x86_64 and macOS 12+. Windows installs per user, without administrator rights.</p>
     </div>
 
     <div class="platform-grid">
@@ -94,21 +50,13 @@ const cli = [
           <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M3 4.6l7.4-1v7.8H3V4.6zm0 14.8l7.4 1v-7.7H3v6.7zM11.6 3.4L21 2v9.4h-9.4V3.4zm0 17.2L21 22v-9.3h-9.4v7.9z"/></svg>
         </div>
         <h3>Windows 10/11 · x64</h3>
-        <p>The installer runs per-user in <code>%LOCALAPPDATA%\Ascuta</code>, bundles the MSVC runtime and adds an uninstaller under <em>Settings → Apps</em>.</p>
+        <p>Installs for your user in <code>%LOCALAPPDATA%\Ascuta</code>.</p>
         <a class="button button-primary" href={windowsSetup}>Download installer (.exe)</a>
         <div class="platform-links">
           <a href={`${windowsSetup}.sha256`}>SHA-256</a>
           <a href={windowsZip}>Portable .zip</a>
         </div>
-        <p class="small-note">SmartScreen may warn because the executable is not signed. Choose <em>More info</em> → <em>Run anyway</em>.</p>
-        <details class="inline-details">
-          <summary>Install with PowerShell instead</summary>
-          <div class="terminal">
-            <div class="terminal-bar"><span></span><span></span><span></span><button class="terminal-copy" type="button" data-copy aria-label="Copy PowerShell install command">Copy</button></div>
-            <pre><code data-copy-source>{windowsPowerShell}</code></pre>
-          </div>
-          <p class="small-note">Downloads the portable package, verifies its SHA-256 and performs the same per-user install.</p>
-        </details>
+        <p class="small-note">SmartScreen may warn because the app is not signed. Choose <em>More info</em> → <em>Run anyway</em>.</p>
       </article>
 
       <article class="platform-card" id="macos">
@@ -116,13 +64,13 @@ const cli = [
           <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M16.4 12.9c0-2.4 2-3.6 2.1-3.7-1.1-1.7-2.9-1.9-3.5-1.9-1.5-.2-2.9.9-3.6.9-.8 0-1.9-.9-3.1-.8-1.6 0-3.1.9-3.9 2.4-1.7 2.9-.4 7.2 1.2 9.6.8 1.1 1.7 2.4 3 2.4 1.2 0 1.6-.8 3.1-.8 1.4 0 1.8.8 3.1.8 1.3 0 2.1-1.2 2.9-2.4.9-1.3 1.3-2.6 1.3-2.7-.1 0-2.6-1-2.6-3.8zM14 5.6c.7-.8 1.1-1.9 1-3.1-1 0-2.2.7-2.9 1.5-.6.7-1.2 1.9-1 3 1.1.1 2.2-.6 2.9-1.4z"/></svg>
         </div>
         <h3>macOS 12+ · Apple silicon &amp; Intel</h3>
-        <p>Open the <code>.dmg</code> and drag <strong>Ascuta</strong> to <em>Applications</em>. The app is ad-hoc signed: on first launch, right-click → <em>Open</em>.</p>
-        <a class="button button-primary" href={releases}>Download for macOS</a>
+        <p>Open the <code>.dmg</code> and drag <strong>Ascuta</strong> to <em>Applications</em>. On first launch, right-click → <em>Open</em>.</p>
+        <a class="button button-primary" href={releases}>Download the .dmg</a>
         <div class="platform-links">
           <a href={releases}>Apple silicon</a>
           <a href={releases}>Intel</a>
         </div>
-        <p class="small-note">On the release page, pick the file ending in <code>-macos-arm64.dmg</code> for Apple silicon or <code>-macos-x86_64.dmg</code> for Intel. macOS asks for Microphone, Accessibility and Input Monitoring.</p>
+        <p class="small-note">Choose <code>-macos-arm64.dmg</code> or <code>-macos-x86_64.dmg</code>, then allow Microphone, Accessibility and Input Monitoring.</p>
       </article>
 
       <article class="platform-card" id="linux">
@@ -130,7 +78,7 @@ const cli = [
           <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c-1.9 0-3.2 1.5-3.2 3.6 0 1.4.2 2.4-.4 3.6-.5 1-1.4 1.9-1.9 3.1-.5 1.1-.4 2.2.2 2.9.3.4.3.8.2 1.3-.2.7.1 1.5.8 1.8.6.3 1.3.2 1.8-.2.6-.4 1.4-.4 2.5-.4s1.9 0 2.5.4c.5.4 1.2.5 1.8.2.7-.3 1-1.1.8-1.8-.1-.5-.1-.9.2-1.3.6-.7.7-1.8.2-2.9-.5-1.2-1.4-2.1-1.9-3.1-.6-1.2-.4-2.2-.4-3.6C15.2 3.5 13.9 2 12 2zm-1.4 4.1a.8.8 0 110 1.6.8.8 0 010-1.6zm2.8 0a.8.8 0 110 1.6.8.8 0 010-1.6zM9.6 9.7c.3.5 1.3.9 2.4.9s2.1-.4 2.4-.9c.2-.3.5-.1.4.2-.3.9-1.4 1.5-2.8 1.5s-2.5-.6-2.8-1.5c-.1-.3.2-.5.4-.2zM8 19.4c-1.1 0-2 .5-2 1.2s.9 1.2 2 1.2h8c1.1 0 2-.5 2-1.2s-.9-1.2-2-1.2H8z"/></svg>
         </div>
         <h3>Linux · x86_64</h3>
-        <p>One line installs into <code>~/.local</code>, verifies the SHA-256 and adds a menu entry. Your package manager may ask for a password to install missing system libraries.</p>
+        <p>Installs into <code>~/.local</code> and adds a menu entry.</p>
         <div class="terminal">
           <div class="terminal-bar"><span></span><span></span><span></span><button class="terminal-copy" type="button" data-copy aria-label="Copy Linux install command">Copy</button></div>
           <pre><code data-copy-source>{linuxInstall}</code></pre>
@@ -139,127 +87,33 @@ const cli = [
           <a href={linuxTar}>Tarball</a>
           <a href={`${linuxTar}.sha256`}>SHA-256</a>
         </div>
-        <p class="small-note">The global hotkey reads keyboards through <code>/dev/input</code>: accept the offer to join the <code>input</code> group, then log out and back in. On Wayland, typing goes through the XDG RemoteDesktop portal.</p>
+        <p class="small-note">To use the global hotkey, join the <code>input</code> group and log out and back in. On Wayland, typing uses the desktop portal.</p>
       </article>
     </div>
 
-    <p class="support-note platform-footnote">All installers and checksums are attached to the <a href={releases}>latest GitHub release</a>. macOS builds are published with the other platforms; if a file is missing, the release is still in progress.</p>
+    <p class="platform-footnote">All files and checksums are on the <a href={releases}>latest GitHub release</a>.</p>
   </div></section>
 
-  <section class="section section-soft" id="features"><div class="container">
-    <div class="section-heading">
-      <p class="eyebrow">What it does</p>
-      <h2>Dictation in the apps you use.</h2>
-      <p>Use the apps you already have. Place the cursor in a text field and hold the hotkey.</p>
-    </div>
-    <div class="feature-grid desktop-feature-grid">
-      {features.map(([title, description]) => <article class="feature-card"><h3>{title}</h3><p>{description}</p></article>)}
-    </div>
-  </div></section>
-
-  <section class="section" id="first-run"><div class="container">
-    <div class="section-heading">
+  <section class="section section-soft" id="after-install"><div class="container after-grid">
+    <div class="after-panel">
       <p class="eyebrow">First run</p>
-      <h2>Set it up once.</h2>
+      <h2>Set up once.</h2>
+      <ol class="mini-steps">
+        <li>Open Ascuta and download a model: Parakeet v2 for English (~640 MB), Parakeet v3 for 25 European languages (~670 MB), or Whisper for other languages.</li>
+        <li>Choose the hotkey and language, then close the window.</li>
+        <li>Put the cursor in a text field, hold the hotkey, speak and release.</li>
+      </ol>
     </div>
-    <ol class="step-grid">
-      {steps.map(([title, description], index) => <li class="step-card"><span class="step-number">{index + 1}</span><h3>{title}</h3><p>{description}</p></li>)}
-    </ol>
-    <p class="support-note">The first dictation after a reboot loads the model into memory, so it takes a moment. Models are stored outside the app and survive reinstalls unless you purge them.</p>
-  </div></section>
-
-  <section class="section section-soft" id="bridge"><div class="container bridge-grid">
-    <div>
+    <div class="after-panel">
       <p class="eyebrow">Phone bridge</p>
       <h2>Use your phone as the microphone.</h2>
-      <p class="bridge-lede">If the computer has no good microphone, or you prefer dictating on the phone, pair the Android app and the finished text is typed on the computer.</p>
-      <ol class="bridge-steps">
-        <li>On the computer, run <code>ascuta-desktop --pair</code> to print a QR code and listen on port <code>8737</code>.</li>
-        <li>On the phone, open <strong>Ascuta → Home → Send to computer</strong> and scan the code.</li>
-        <li>Dictate on the phone. The text is typed into the focused field on the computer.</li>
-      </ol>
-      <p class="small-note">Both devices must be on the same network, and the firewall must allow TCP <code>8737</code>. The bridge is off by default; enable it in the settings window or use <code>--pair</code>.</p>
-      <div class="actions bridge-actions"><a class="button button-secondary" href={base}>Get Ascuta for Android</a></div>
-    </div>
-    <aside class="bridge-card">
-      <div class="bridge-card-head">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="8" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/><path stroke-linecap="round" d="M14 14h2v2h-2zm4 0h3v3h-3zm-4 4h2v3h-2z"/></svg>
-        <span>Pairing</span>
-      </div>
-      <dl class="bridge-facts">
-        <div><dt>Transport</dt><dd>Local Wi-Fi</dd></div>
-        <div><dt>Port</dt><dd>TCP 8737</dd></div>
-        <div><dt>Audio sent</dt><dd>None</dd></div>
-        <div><dt>Token</dt><dd>256-bit, per pairing</dd></div>
-      </dl>
-      <p class="small-note">The bridge uses plain HTTP on your local network. Use it on networks you trust.</p>
-    </aside>
-  </div></section>
-
-  <section class="section" id="privacy"><div class="container narrow">
-    <div class="section-heading">
-      <p class="eyebrow">Privacy</p>
-      <h2>Audio is not uploaded.</h2>
-    </div>
-    <div class="prose privacy-prose">
-      <ul>
-        <li>Ascuta records, decodes and discards audio on this computer. Transcripts are stored in the app's settings and history files.</li>
-        <li>There is no analytics, crash reporting or telemetry. The app uses the network only to download models and, if you enable it, for the phone bridge.</li>
-        <li>The phone bridge uses a 256-bit token created at pairing, over plain HTTP on the local network.</li>
-        <li>Ascuta needs permission to send key events so it can type into other apps. It does not read the screen or the contents of other windows.</li>
-      </ul>
-      <p>Read the full <a href={`${base}privacy-policy`}>privacy policy</a>.</p>
+      <p>Run <code>ascuta-desktop --pair</code> on the computer, then scan the QR code from Ascuta on Android (<strong>Home → Send to computer</strong>). Both devices must be on the same network, and TCP <code>8737</code> must be allowed.</p>
     </div>
   </div></section>
 
-  <section class="section section-soft" id="troubleshooting"><div class="container">
-    <div class="section-heading">
-      <p class="eyebrow">Troubleshooting</p>
-      <h2>Common problems.</h2>
-      <p>Fixes for the problems reported most often.</p>
-    </div>
-    <div class="support-grid faq-grid">
-      {faqs.map(([question, answer]) => <details class="support-card faq"><summary><h3>{question}</h3><span>+</span></summary><p set:html={answer} /></details>)}
-    </div>
+  <section class="page-note-section"><div class="container">
+    <p class="page-note">Troubleshooting, CLI flags and file locations are in the <a href={readme}>README</a>. Ascuta is also available for <a href={base}>Android</a>.</p>
   </div></section>
-
-  <section class="section" id="advanced"><div class="container narrow">
-    <div class="section-heading">
-      <p class="eyebrow">Advanced</p>
-      <h2>Command line and file locations.</h2>
-    </div>
-    <div class="prose">
-      <h3>Flags</h3>
-      <div class="table-wrap">
-        <table class="cli-table">
-          <thead><tr><th>Flag</th><th>What it does</th></tr></thead>
-          <tbody>{cli.map(([flag, description]) => <tr><td><code>{flag}</code></td><td>{description}</td></tr>)}</tbody>
-        </table>
-      </div>
-
-      <h3>Settings and models</h3>
-      <ul>
-        <li>Linux: <code>~/.config/ascuta/settings.json</code> and <code>~/.local/share/ascuta/models</code></li>
-        <li>macOS: <code>~/Library/Application Support/ascuta/settings.json</code></li>
-        <li>Windows: <code>%APPDATA%\ascuta\settings.json</code></li>
-        <li>Override the settings path with <code>ASCUTA_CONFIG_FILE</code>.</li>
-      </ul>
-
-      <h3>Uninstall</h3>
-      <pre class="code-block"><code># Linux — keep settings and models
-~/.local/lib/ascuta/install.sh --uninstall
-
-# Linux — remove everything
-~/.local/lib/ascuta/install.sh --uninstall --purge</code></pre>
-      <p>On Windows, use <em>Settings → Apps → Ascuta Desktop</em>, or run <code>install.cmd --uninstall</code> from <code>%LOCALAPPDATA%\Ascuta</code>. On macOS, drag <strong>Ascuta</strong> from <em>Applications</em> to the bin.</p>
-    </div>
-  </div></section>
-
-  <section class="cta"><div class="container cta-inner"><div>
-    <p class="eyebrow">Also on Android</p>
-    <h2>Ascuta also runs on Android.</h2>
-    <p>The Android app transcribes on the device and works with your existing keyboard.</p>
-  </div><a class="button button-secondary" href={base}>See Ascuta for Android</a></div></section>
 </Layout>
 
 <style>
@@ -270,20 +124,16 @@ const cli = [
   .hero-platforms { margin: 18px 0 0; color: var(--muted); font-size: 14px; }
   .hero-platforms a { display: inline-block; padding: 6px 0; color: var(--primary-dark); font-weight: 600; }
 
-  .page-index { display: flex; flex-wrap: wrap; gap: 8px 10px; margin-top: 46px; padding-top: 22px; border-top: 1px solid var(--line); }
-  .page-index a { padding: 6px 12px; border: 1px solid var(--line); border-radius: 999px; color: var(--muted); background: rgba(255, 255, 255, .8); font-size: 13px; font-weight: 600; text-decoration: none; }
-  .page-index a:hover { color: var(--primary-dark); border-color: var(--primary-soft); background: #fff; }
-
   .platform-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; align-items: start; }
   .platform-card { min-width: 0; padding: 28px; border: 1px solid var(--line); border-radius: 16px; background: #fff; }
   .platform-card h3 { margin: 14px 0 10px; font-size: 20px; letter-spacing: -.02em; }
   .platform-card > p { color: var(--muted); font-size: 14px; line-height: 1.65; }
   .platform-card .button { width: 100%; margin-top: 6px; }
-  .platform-card code, .bridge-grid code { padding: 2px 6px; border-radius: 5px; background: var(--soft); color: var(--primary-dark); font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: .9em; }
+  .platform-card code { padding: 2px 6px; border-radius: 5px; background: var(--soft); color: var(--primary-dark); font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: .9em; }
   .platform-icon { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 12px; color: var(--primary-dark); background: var(--primary-soft); }
   .platform-links { display: flex; gap: 16px; margin-top: 14px; font-size: 13px; font-weight: 600; }
   .platform-links a { display: inline-block; padding: 6px 0; color: var(--primary-dark); }
-  .platform-footnote { margin-top: 34px; text-align: center; }
+  .platform-footnote { margin: 34px 0 0; color: var(--muted); font-size: 14px; text-align: center; }
   .platform-footnote a { color: var(--primary-dark); font-weight: 600; }
 
   .terminal { min-width: 0; margin: 18px 0 14px; border: 1px solid #23303a; border-radius: 12px; overflow: hidden; background: #0b1720; }
@@ -293,51 +143,17 @@ const cli = [
   .terminal-copy:hover { background: #1d3341; }
   .terminal pre { margin: 0; padding: 15px; overflow-x: auto; }
   .terminal code { padding: 0; background: none; color: #e6f2f9; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 12.5px; line-height: 1.6; white-space: pre; }
-  .inline-details { margin-top: 18px; }
-  .inline-details summary { padding: 6px 0; color: var(--primary-dark); font-size: 13px; font-weight: 600; cursor: pointer; }
 
-  .desktop-feature-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .after-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 48px; align-items: start; }
+  .after-panel h2 { margin-bottom: 14px; font-size: clamp(28px, 4vw, 36px); letter-spacing: -.04em; }
+  .after-panel p, .after-panel li { color: var(--muted); font-size: 15px; line-height: 1.7; }
+  .after-panel code { padding: 2px 6px; border-radius: 5px; background: var(--soft); color: var(--primary-dark); font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: .9em; }
+  .mini-steps { margin: 0; padding-left: 20px; }
+  .mini-steps li { margin: 10px 0; }
 
-  .step-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; margin: 0; padding: 0; list-style: none; counter-reset: step; }
-  .step-card { position: relative; min-width: 0; padding: 28px; border: 1px solid var(--line); border-radius: 16px; background: #fff; }
-  .step-number { display: grid; place-items: center; width: 34px; height: 34px; margin-bottom: 16px; border-radius: 50%; color: #fff; background: var(--primary); font-size: 15px; font-weight: 800; }
-  .step-card h3 { margin: 0 0 8px; font-size: 18px; }
-  .step-card p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.65; }
-
-  .bridge-grid { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, .75fr); gap: 48px; align-items: center; }
-  .bridge-grid h2 { margin-bottom: 14px; font-size: clamp(30px, 4.4vw, 42px); letter-spacing: -.05em; }
-  .bridge-lede { color: var(--muted); font-size: 17px; line-height: 1.7; }
-  .bridge-steps { margin: 22px 0; padding-left: 22px; color: var(--muted); font-size: 15px; line-height: 1.7; }
-  .bridge-steps li { margin: 10px 0; }
-  .bridge-actions { justify-content: flex-start; margin-top: 22px; }
-  .bridge-card { min-width: 0; padding: 26px; border: 1px solid var(--line); border-radius: 16px; background: #fff; box-shadow: 0 12px 30px rgba(0, 53, 84, .06); }
-  .bridge-card-head { display: flex; align-items: center; gap: 10px; padding-bottom: 16px; border-bottom: 1px solid var(--line); color: var(--primary-dark); font-weight: 700; }
-  .bridge-facts { margin: 6px 0 16px; }
-  .bridge-facts > div { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 11px 0; border-bottom: 1px solid var(--line); }
-  .bridge-facts dt { color: var(--muted); font-size: 13px; }
-  .bridge-facts dd { margin: 0; color: var(--ink); font-size: 13px; font-weight: 700; text-align: right; }
-  .bridge-card .small-note { margin: 0; }
-
-  .privacy-prose ul { margin: 0 0 20px; }
-  .privacy-prose li { margin: 11px 0; }
-
-  .faq-grid { align-items: start; }
-  .faq summary { list-style: none; display: flex; align-items: flex-start; justify-content: space-between; gap: 15px; padding: 6px 0; cursor: pointer; }
-  .faq summary::-webkit-details-marker { display: none; }
-  .faq summary h3 { margin: 0; font-size: 17px; }
-  .faq summary span { color: var(--primary); font-size: 21px; line-height: 1; }
-  .faq[open] summary span { transform: rotate(45deg); }
-  .faq p { margin-top: 14px; }
-
-  .table-wrap { overflow-x: auto; margin: 8px 0 22px; }
-  .cli-table { width: 100%; border-collapse: collapse; font-size: 14px; }
-  .cli-table th, .cli-table td { padding: 10px 12px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
-  .cli-table th { color: var(--ink); font-size: 12px; text-transform: uppercase; letter-spacing: .06em; }
-  .cli-table td { color: var(--muted); line-height: 1.6; }
-  .cli-table code { padding: 2px 6px; border-radius: 5px; background: var(--soft); color: var(--primary-dark); font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: .92em; white-space: nowrap; }
-  .prose .code-block { margin: 0 0 16px; padding: 18px 20px; overflow-x: auto; border: 1px solid var(--line); border-radius: 12px; background: var(--soft); }
-  .prose .code-block code { padding: 0; background: none; color: var(--ink); font-size: 13px; line-height: 1.7; white-space: pre; }
-  .prose :not(pre) > code { overflow-wrap: anywhere; }
+  .page-note-section { padding: 40px 0 72px; }
+  .page-note { margin: 0; color: var(--muted); font-size: 14px; text-align: center; }
+  .page-note a { color: var(--primary-dark); font-weight: 600; }
 
   @media (max-width: 900px) {
     .desktop-hero { grid-template-columns: 1fr; gap: 20px; }
@@ -345,15 +161,11 @@ const cli = [
     .desktop-hero-copy .actions { justify-content: center; }
     .desktop-hero-copy .lede { margin: 0 auto; }
     .platform-grid { grid-template-columns: minmax(0, 1fr); }
-    .desktop-feature-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .step-grid { grid-template-columns: minmax(0, 1fr); }
-    .bridge-grid { grid-template-columns: minmax(0, 1fr); gap: 28px; }
+    .after-grid { grid-template-columns: minmax(0, 1fr); gap: 40px; }
   }
 
   @media (max-width: 520px) {
     .platform-card { padding: 22px; }
-    .desktop-feature-grid { grid-template-columns: minmax(0, 1fr); }
-    .page-index a { padding: 9px 14px; }
   }
 </style>
 
