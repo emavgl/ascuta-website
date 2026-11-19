@@ -113,6 +113,7 @@ h1 { margin-bottom: 24px; color: var(--ink); font-size: clamp(42px, 7vw, 68px); 
 @media (max-width: 800px) {
   .nav-inner { min-height: 64px; }
   .nav-links { gap: 14px; font-size: 13px; }
+  .nav-links a { padding: 11px 2px; }
   .nav-links a:nth-child(4) { display: none; }
   .hero-inner { padding-top: 72px; padding-bottom: 78px; }
   .feature-grid, .support-grid { grid-template-columns: repeat(2, 1fr); }
@@ -131,6 +132,12 @@ h1 { margin-bottom: 24px; color: var(--ink); font-size: clamp(42px, 7vw, 68px); 
   .section { padding: 62px 0; }
   .page-header { padding: 58px 0 48px; }
   .footer-grid { grid-template-columns: 1fr 1fr; }
+  .site-footer li { margin-bottom: 2px; }
+  .site-footer a { display: inline-block; padding: 4px 0; }
+  .legal-details { grid-template-columns: 1fr; gap: 2px 0; }
+  .legal-details dt { margin-top: 10px; }
+  .legal-details dt:first-child { margin-top: 0; }
+  .legal-details dd { overflow-wrap: anywhere; }
 }
 
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; scroll-behavior: auto !important; } }

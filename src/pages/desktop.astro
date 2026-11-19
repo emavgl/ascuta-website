@@ -268,49 +268,49 @@ const cli = [
   .desktop-hero-copy .lede { margin: 0; }
   .desktop-hero-copy h1 { font-size: clamp(40px, 5.6vw, 58px); }
   .hero-platforms { margin: 18px 0 0; color: var(--muted); font-size: 14px; }
-  .hero-platforms a { color: var(--primary-dark); font-weight: 600; }
+  .hero-platforms a { display: inline-block; padding: 6px 0; color: var(--primary-dark); font-weight: 600; }
 
   .page-index { display: flex; flex-wrap: wrap; gap: 8px 10px; margin-top: 46px; padding-top: 22px; border-top: 1px solid var(--line); }
   .page-index a { padding: 6px 12px; border: 1px solid var(--line); border-radius: 999px; color: var(--muted); background: rgba(255, 255, 255, .8); font-size: 13px; font-weight: 600; text-decoration: none; }
   .page-index a:hover { color: var(--primary-dark); border-color: var(--primary-soft); background: #fff; }
 
-  .platform-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; align-items: start; }
-  .platform-card { padding: 28px; border: 1px solid var(--line); border-radius: 16px; background: #fff; }
+  .platform-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; align-items: start; }
+  .platform-card { min-width: 0; padding: 28px; border: 1px solid var(--line); border-radius: 16px; background: #fff; }
   .platform-card h3 { margin: 14px 0 10px; font-size: 20px; letter-spacing: -.02em; }
   .platform-card > p { color: var(--muted); font-size: 14px; line-height: 1.65; }
   .platform-card .button { width: 100%; margin-top: 6px; }
   .platform-card code, .bridge-grid code { padding: 2px 6px; border-radius: 5px; background: var(--soft); color: var(--primary-dark); font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: .9em; }
   .platform-icon { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 12px; color: var(--primary-dark); background: var(--primary-soft); }
   .platform-links { display: flex; gap: 16px; margin-top: 14px; font-size: 13px; font-weight: 600; }
-  .platform-links a { color: var(--primary-dark); }
+  .platform-links a { display: inline-block; padding: 6px 0; color: var(--primary-dark); }
   .platform-footnote { margin-top: 34px; text-align: center; }
   .platform-footnote a { color: var(--primary-dark); font-weight: 600; }
 
-  .terminal { margin: 18px 0 14px; border: 1px solid #23303a; border-radius: 12px; overflow: hidden; background: #0b1720; }
+  .terminal { min-width: 0; margin: 18px 0 14px; border: 1px solid #23303a; border-radius: 12px; overflow: hidden; background: #0b1720; }
   .terminal-bar { display: flex; align-items: center; gap: 7px; padding: 9px 12px; background: #13232e; }
   .terminal-bar > span { width: 9px; height: 9px; border-radius: 50%; background: #39505f; }
-  .terminal-copy { margin-left: auto; padding: 3px 10px; border: 1px solid #3a5160; border-radius: 6px; color: #d7e6ef; background: transparent; font: inherit; font-size: 11px; font-weight: 600; cursor: pointer; }
+  .terminal-copy { margin-left: auto; padding: 6px 12px; border: 1px solid #3a5160; border-radius: 6px; color: #d7e6ef; background: transparent; font: inherit; font-size: 11px; font-weight: 600; cursor: pointer; }
   .terminal-copy:hover { background: #1d3341; }
   .terminal pre { margin: 0; padding: 15px; overflow-x: auto; }
   .terminal code { padding: 0; background: none; color: #e6f2f9; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 12.5px; line-height: 1.6; white-space: pre; }
   .inline-details { margin-top: 18px; }
-  .inline-details summary { color: var(--primary-dark); font-size: 13px; font-weight: 600; cursor: pointer; }
+  .inline-details summary { padding: 6px 0; color: var(--primary-dark); font-size: 13px; font-weight: 600; cursor: pointer; }
 
-  .desktop-feature-grid { grid-template-columns: repeat(3, 1fr); }
+  .desktop-feature-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 
-  .step-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; margin: 0; padding: 0; list-style: none; counter-reset: step; }
-  .step-card { position: relative; padding: 28px; border: 1px solid var(--line); border-radius: 16px; background: #fff; }
+  .step-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; margin: 0; padding: 0; list-style: none; counter-reset: step; }
+  .step-card { position: relative; min-width: 0; padding: 28px; border: 1px solid var(--line); border-radius: 16px; background: #fff; }
   .step-number { display: grid; place-items: center; width: 34px; height: 34px; margin-bottom: 16px; border-radius: 50%; color: #fff; background: var(--primary); font-size: 15px; font-weight: 800; }
   .step-card h3 { margin: 0 0 8px; font-size: 18px; }
   .step-card p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.65; }
 
-  .bridge-grid { display: grid; grid-template-columns: 1.25fr .75fr; gap: 48px; align-items: center; }
+  .bridge-grid { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, .75fr); gap: 48px; align-items: center; }
   .bridge-grid h2 { margin-bottom: 14px; font-size: clamp(30px, 4.4vw, 42px); letter-spacing: -.05em; }
   .bridge-lede { color: var(--muted); font-size: 17px; line-height: 1.7; }
   .bridge-steps { margin: 22px 0; padding-left: 22px; color: var(--muted); font-size: 15px; line-height: 1.7; }
   .bridge-steps li { margin: 10px 0; }
   .bridge-actions { justify-content: flex-start; margin-top: 22px; }
-  .bridge-card { padding: 26px; border: 1px solid var(--line); border-radius: 16px; background: #fff; box-shadow: 0 12px 30px rgba(0, 53, 84, .06); }
+  .bridge-card { min-width: 0; padding: 26px; border: 1px solid var(--line); border-radius: 16px; background: #fff; box-shadow: 0 12px 30px rgba(0, 53, 84, .06); }
   .bridge-card-head { display: flex; align-items: center; gap: 10px; padding-bottom: 16px; border-bottom: 1px solid var(--line); color: var(--primary-dark); font-weight: 700; }
   .bridge-facts { margin: 6px 0 16px; }
   .bridge-facts > div { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 11px 0; border-bottom: 1px solid var(--line); }
@@ -322,7 +322,7 @@ const cli = [
   .privacy-prose li { margin: 11px 0; }
 
   .faq-grid { align-items: start; }
-  .faq summary { list-style: none; display: flex; align-items: flex-start; justify-content: space-between; gap: 15px; cursor: pointer; }
+  .faq summary { list-style: none; display: flex; align-items: flex-start; justify-content: space-between; gap: 15px; padding: 6px 0; cursor: pointer; }
   .faq summary::-webkit-details-marker { display: none; }
   .faq summary h3 { margin: 0; font-size: 17px; }
   .faq summary span { color: var(--primary); font-size: 21px; line-height: 1; }
@@ -337,21 +337,23 @@ const cli = [
   .cli-table code { padding: 2px 6px; border-radius: 5px; background: var(--soft); color: var(--primary-dark); font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: .92em; white-space: nowrap; }
   .prose .code-block { margin: 0 0 16px; padding: 18px 20px; overflow-x: auto; border: 1px solid var(--line); border-radius: 12px; background: var(--soft); }
   .prose .code-block code { padding: 0; background: none; color: var(--ink); font-size: 13px; line-height: 1.7; white-space: pre; }
+  .prose :not(pre) > code { overflow-wrap: anywhere; }
 
   @media (max-width: 900px) {
     .desktop-hero { grid-template-columns: 1fr; gap: 20px; }
     .desktop-hero-copy { text-align: center; }
     .desktop-hero-copy .actions { justify-content: center; }
     .desktop-hero-copy .lede { margin: 0 auto; }
-    .platform-grid { grid-template-columns: 1fr; }
-    .desktop-feature-grid { grid-template-columns: repeat(2, 1fr); }
-    .step-grid { grid-template-columns: 1fr; }
-    .bridge-grid { grid-template-columns: 1fr; gap: 28px; }
+    .platform-grid { grid-template-columns: minmax(0, 1fr); }
+    .desktop-feature-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .step-grid { grid-template-columns: minmax(0, 1fr); }
+    .bridge-grid { grid-template-columns: minmax(0, 1fr); gap: 28px; }
   }
 
   @media (max-width: 520px) {
     .platform-card { padding: 22px; }
-    .desktop-feature-grid { grid-template-columns: 1fr; }
+    .desktop-feature-grid { grid-template-columns: minmax(0, 1fr); }
+    .page-index a { padding: 9px 14px; }
   }
 </style>
 
