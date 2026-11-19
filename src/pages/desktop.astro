@@ -19,17 +19,17 @@ const windowsPowerShell = `irm ${downloads}/install-windows.ps1 | iex`;
 
 const steps = [
   ['Open Ascuta', 'Start it from the tray or menu bar. The settings window opens on first run.'],
-  ['Download a model', 'Parakeet v2 for English (~640 MB), Parakeet v3 for 25 European languages (~670 MB), or a Whisper model for anything else. Downloads are checked against a pinned SHA-256.'],
-  ['Pick your hotkey', 'Choose the shortcut, language and input mode, then close the window. Dictation keeps running in the background.'],
+  ['Download a model', 'Parakeet v2 for English (~640 MB), Parakeet v3 for 25 European languages (~670 MB), or Whisper for other languages. Each download is checked against a pinned SHA-256.'],
+  ['Choose a hotkey', 'Set the shortcut, language and input mode, then close the window. Dictation keeps running in the background.'],
 ];
 
 const features = [
-  ['Hold to talk, anywhere', 'Hold Ctrl+Win (Option+Space on macOS), speak, release. The transcript is typed into whatever field has focus, in any app.'],
-  ['Speech stays on your machine', 'Parakeet and Whisper models run locally on your CPU. Audio is captured, decoded and discarded — no account, no cloud, no telemetry.'],
-  ['Silence is not text', 'Voice activity detection trims silence before decoding and throws away recordings with no speech instead of pasting an empty line.'],
-  ['Phone as a microphone', 'Pair the Ascuta Android app over Wi-Fi with a QR code and every finished transcript is typed on the computer. Audio never leaves the phone.'],
-  ['Fits your desktop', 'Tray icon, optional on-screen HUD and launch-at-login. On Wayland it uses the desktop portal, and falls back to the clipboard when typing is blocked.'],
-  ['Optional local cleanup', 'An on-device Gemma model can fix punctuation and obvious mis-hearings. It is off by default, needs Python, and never sends text anywhere.'],
+  ['Push-to-talk in any app', 'Hold Ctrl+Win (Option+Space on macOS), speak, release. The transcript is typed into the focused field.'],
+  ['Transcription is local', 'Parakeet and Whisper models run on your CPU. Audio is captured, decoded and discarded; it is not uploaded.'],
+  ['Empty recordings are discarded', 'Voice activity detection trims silence before decoding and discards recordings with no speech, so it does not paste an empty transcript.'],
+  ['Use your phone as the microphone', 'Pair the Android app over Wi-Fi with a QR code. Each finished transcript is typed on the computer; the audio stays on the phone.'],
+  ['Runs in the background', 'A tray icon (menu bar on macOS), an optional on-screen HUD and launch at login. On Wayland, typing uses the desktop portal and falls back to the clipboard when it cannot type into an app.'],
+  ['Optional punctuation cleanup', 'An on-device Gemma model can fix punctuation and obvious mis-hearings. It is off by default, needs Python and does not send text anywhere.'],
 ];
 
 const faqs = [
@@ -53,20 +53,20 @@ const cli = [
 ---
 
 <Layout
-  title="Ascuta Desktop – Private voice typing for Linux, Windows and macOS"
-  description="Install Ascuta Desktop, the offline dictation companion for Android: hold a shortcut, speak, and the text is typed into any app. Linux, Windows and macOS."
+  title="Ascuta Desktop – Offline dictation for Linux, Windows and macOS"
+  description="Install Ascuta Desktop on Windows, Linux or macOS. Hold a shortcut, speak, and the transcript is typed into the app you are using. Audio is transcribed on your computer."
 >
   <section class="page-header"><div class="container">
     <div class="desktop-hero">
       <div class="desktop-hero-copy">
         <p class="eyebrow">Ascuta Desktop</p>
-        <h1>Your voice, on your computer.</h1>
-        <p class="lede">Hold a shortcut, speak, release. Ascuta types the words into whatever app has focus — notes, email, your editor. Speech is transcribed on your machine, so nothing you say leaves it.</p>
+        <h1>Dictate into any app on your computer.</h1>
+        <p class="lede">Hold Ctrl+Win (Option+Space on macOS), speak, release. The transcript is typed into the field you were using. Speech is transcribed on your computer, so no audio is uploaded.</p>
         <div class="actions">
           <a class="button button-primary" href={windowsSetup}>Download for Windows</a>
           <a class="button button-secondary" href="#linux">Install on Linux</a>
         </div>
-        <p class="hero-platforms">Also for <a href="#macos">macOS</a> · No account · No telemetry</p>
+        <p class="hero-platforms">Also for <a href="#macos">macOS 12+</a>. No account required.</p>
       </div>
       <DesktopDemo />
     </div>
@@ -85,7 +85,7 @@ const cli = [
     <div class="section-heading">
       <p class="eyebrow">Install</p>
       <h2>Pick your platform.</h2>
-      <p>Prebuilt packages for Windows 10/11, Linux x86_64 and macOS 12+. No account, no source code, and no administrator rights needed on Windows.</p>
+      <p>Windows 10/11, Linux x86_64 and macOS 12+. The Windows installer runs per user and does not need administrator rights.</p>
     </div>
 
     <div class="platform-grid">
@@ -143,14 +143,14 @@ const cli = [
       </article>
     </div>
 
-    <p class="support-note platform-footnote">Linux and Windows packages are built on every release. macOS builds are published alongside them; if a file is missing, the release is still in progress. Check the <a href={releases}>latest GitHub release</a> for release notes, checksums and every asset.</p>
+    <p class="support-note platform-footnote">All installers and checksums are attached to the <a href={releases}>latest GitHub release</a>. macOS builds are published with the other platforms; if a file is missing, the release is still in progress.</p>
   </div></section>
 
   <section class="section section-soft" id="features"><div class="container">
     <div class="section-heading">
       <p class="eyebrow">What it does</p>
-      <h2>Dictate where you actually write.</h2>
-      <p>The same private dictation you know from the phone, without changing the apps you already use.</p>
+      <h2>Dictation in the apps you use.</h2>
+      <p>Use the apps you already have. Place the cursor in a text field and hold the hotkey.</p>
     </div>
     <div class="feature-grid desktop-feature-grid">
       {features.map(([title, description]) => <article class="feature-card"><h3>{title}</h3><p>{description}</p></article>)}
@@ -160,19 +160,19 @@ const cli = [
   <section class="section" id="first-run"><div class="container">
     <div class="section-heading">
       <p class="eyebrow">First run</p>
-      <h2>Three steps, then just talk.</h2>
+      <h2>Set it up once.</h2>
     </div>
     <ol class="step-grid">
       {steps.map(([title, description], index) => <li class="step-card"><span class="step-number">{index + 1}</span><h3>{title}</h3><p>{description}</p></li>)}
     </ol>
-    <p class="support-note">The first dictation after a reboot loads the model into memory, so expect a short delay. Speech models are stored outside the app and survive reinstalls unless you purge them.</p>
+    <p class="support-note">The first dictation after a reboot loads the model into memory, so it takes a moment. Models are stored outside the app and survive reinstalls unless you purge them.</p>
   </div></section>
 
   <section class="section section-soft" id="bridge"><div class="container bridge-grid">
     <div>
       <p class="eyebrow">Phone bridge</p>
       <h2>Use your phone as the microphone.</h2>
-      <p class="bridge-lede">On a computer without a good microphone — or when you would rather dictate on the phone — pair the Android app and let the finished transcript appear on the desktop.</p>
+      <p class="bridge-lede">If the computer has no good microphone, or you prefer dictating on the phone, pair the Android app and the finished text is typed on the computer.</p>
       <ol class="bridge-steps">
         <li>On the computer, run <code>ascuta-desktop --pair</code> to print a QR code and listen on port <code>8737</code>.</li>
         <li>On the phone, open <strong>Ascuta → Home → Send to computer</strong> and scan the code.</li>
@@ -199,14 +199,14 @@ const cli = [
   <section class="section" id="privacy"><div class="container narrow">
     <div class="section-heading">
       <p class="eyebrow">Privacy</p>
-      <h2>Your voice stays on your machine.</h2>
+      <h2>Audio is not uploaded.</h2>
     </div>
     <div class="prose privacy-prose">
       <ul>
-        <li>Audio is captured, decoded and discarded locally. Transcripts are written only to the settings and history files on this computer.</li>
-        <li>There is no analytics, crash reporting or telemetry. The only network access is for model downloads and the optional phone bridge you configure.</li>
-        <li>The phone bridge requires a 256-bit bearer token created at pairing time, but it runs over plain HTTP on the local network.</li>
-        <li>Ascuta needs permission to send key events in order to type into other apps. It never reads the screen or the contents of other windows.</li>
+        <li>Ascuta records, decodes and discards audio on this computer. Transcripts are stored in the app's settings and history files.</li>
+        <li>There is no analytics, crash reporting or telemetry. The app uses the network only to download models and, if you enable it, for the phone bridge.</li>
+        <li>The phone bridge uses a 256-bit token created at pairing, over plain HTTP on the local network.</li>
+        <li>Ascuta needs permission to send key events so it can type into other apps. It does not read the screen or the contents of other windows.</li>
       </ul>
       <p>Read the full <a href={`${base}privacy-policy`}>privacy policy</a>.</p>
     </div>
@@ -215,8 +215,8 @@ const cli = [
   <section class="section section-soft" id="troubleshooting"><div class="container">
     <div class="section-heading">
       <p class="eyebrow">Troubleshooting</p>
-      <h2>When something does not work.</h2>
-      <p>The common problems and their fixes, for all three platforms.</p>
+      <h2>Common problems.</h2>
+      <p>Fixes for the problems reported most often.</p>
     </div>
     <div class="support-grid faq-grid">
       {faqs.map(([question, answer]) => <details class="support-card faq"><summary><h3>{question}</h3><span>+</span></summary><p set:html={answer} /></details>)}
@@ -257,8 +257,8 @@ const cli = [
 
   <section class="cta"><div class="container cta-inner"><div>
     <p class="eyebrow">Also on Android</p>
-    <h2>The phone does the same, on the go.</h2>
-    <p>Ascuta for Android transcribes on-device and works with the keyboard you already use.</p>
+    <h2>Ascuta also runs on Android.</h2>
+    <p>The Android app transcribes on the device and works with your existing keyboard.</p>
   </div><a class="button button-secondary" href={base}>See Ascuta for Android</a></div></section>
 </Layout>
 
