@@ -4,6 +4,10 @@ on:
   push:
     branches: [main, master]
   workflow_dispatch:
+  schedule:
+    # Rebuild daily so the macOS DMG URLs resolved at build time follow the
+    # latest ascuta-desktop release.
+    - cron: '17 5 * * *'
 
 permissions:
   contents: read
@@ -31,6 +35,8 @@ jobs:
         run: npm run check
       - name: Build
         run: npm run build
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
